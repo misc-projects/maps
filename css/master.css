@@ -1,0 +1,79 @@
+/* This will be compiled into the final CSS file. */
+/* VARIABLES */
+/* Colours */
+* {
+  margin: 0;
+  padding: 0; }
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; }
+
+#map {
+  width: 80%;
+  height: 100%;
+  margin-bottom: 0;
+  position: fixed; }
+  #map path {
+    transition: fill 0.25s;
+    fill: #c3c3c3; }
+    #map path:hover {
+      fill: #a3a3a3; }
+    #map path.visited {
+      fill: #89BBFE; }
+      #map path.visited:hover {
+        fill: #6F8AB7; }
+    #map path.will-visit {
+      fill: #ACEDFF; }
+      #map path.will-visit:hover {
+        fill: #89BBFE; }
+
+#sidebar {
+  background-color: #efefef; }
+  @media screen and (min-width: 768px) {
+    #sidebar {
+      width: 20%;
+      height: 100%;
+      z-index: 1;
+      position: fixed;
+      right: 0; } }
+  @media screen and (min-width: 480px) {
+    #sidebar {
+      /* SLIDE? */ } }
+  @media screen and (max-width: 479px) {
+    #sidebar {
+      display: none; } }
+  #sidebar div.sidebar-banner {
+    width: 100%;
+    height: 50px;
+    z-index: 2;
+    transition: background-color 0.50s;
+    color: grey; }
+    #sidebar div.sidebar-banner input[type=radio] {
+      display: none; }
+    #sidebar div.sidebar-banner h1.sidebar-title {
+      font-family: sans-serif;
+      font-size: 20px;
+      line-height: 20px;
+      padding: 15px;
+      display: block;
+      vertical-align: middle;
+      text-align: right; }
+    #sidebar div.sidebar-banner .sidebar-content {
+      display: none; }
+    #sidebar div.sidebar-banner:nth-child(1):hover {
+      background-color: #615D6C;
+      color: #FFFFFF; }
+    #sidebar div.sidebar-banner:nth-child(2):hover {
+      background-color: #89BBFE;
+      color: #FFFFFF; }
+    #sidebar div.sidebar-banner:nth-child(3):hover {
+      background-color: #6F8AB7;
+      color: #FFFFFF; }
+      #sidebar div.sidebar-banner:nth-child(3):hover .sidebar-content {
+        display: block; }
+
+/* get responsive */
+
+/*# sourceMappingURL=master.css.map */

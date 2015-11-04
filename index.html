@@ -2,17 +2,52 @@
 <meta charset="utf-8">
 
 <head>
-    <link href="css/map.css" rel="stylesheet" type="text/css">
+    <link href="css/master.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
 
     <div id="map"></div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <div id="sidebar">
+
+        <div id="reset-bar" class="sidebar-banner">
+            <input id="radio-reset" type="radio" name="sidebar-options" value="reset">
+            <label for="radio-reset">
+                <h1 class="sidebar-title">Reset</h1>
+            </label>
+        </div>
+
+        <div id="pin-bar" class="sidebar-banner">
+            <input id="radio-pin" type="radio" name="sidebar-options" value="pin">
+            <label for="radio-pin">
+                <h1 class="sidebar-title">Pin</h1>
+            </label>
+        </div>
+
+        <div id="colour-bar" class="sidebar-banner">
+            <input id="radio-colour" type="radio" name="sidebar-options" value="colour" checked>
+            <label for="radio-colour">
+                <h1 class="sidebar-title">Colour</h1>
+            </label>
+
+            <div class="sidebar-content">
+                <form action="">
+                    <input type="radio" name="travel-status" value="never-visited">Never<br>
+                    <input type="radio" name="travel-status" value="will-visit">Wishlist<br>
+                    <input type="radio" name="travel-status" value="visited" checked>Visited<br>
+                </form>
+            </div>
+        </div>
+
+
+
+    </div>
+
+    <!-- script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.19/topojson.min.js"></script>
     <script src="js/map.js"></script>
 
-    <div id="sidebar"></div>
+
 </body>

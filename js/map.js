@@ -1,13 +1,15 @@
 d3.json("raw_shp/worldnoa.json", function(error, world) {
     if (error) return console.error(error);
 
-    var width = $("#map").width(),
-        height = $(window).height();  // get a better method for this
+    var width = d3.select("#map")
+                .node()
+                .getBoundingClientRect()
+                .width;
+        height = d3.select("#map")
+                .node()
+                .getBoundingClientRect()
+                .height;
 
-    var svg = d3.select("#map")
-            .append("svg")
-            .attr("height", height)
-            .attr("width", width);
 
     // Create unit projection
     var projection = d3.geo.mercator()
@@ -19,8 +21,7 @@ d3.json("raw_shp/worldnoa.json", function(error, world) {
 
     var countries = topojson.feature(world, world.objects.countries_noata);
     
-    // Derive scale and offset translation from bounds
-
+    // Derive scale and offset translation from unit bounds
     var bounds  = path.bounds(countries),
         left = bounds[0][0],
         right = bounds[1][0],
@@ -29,29 +30,53 @@ d3.json("raw_shp/worldnoa.json", function(error, world) {
         scale = 0.95 / Math.max((right - left) / width, (top - bottom) / height),
         offset = [(right - left) * scale / 2, (height - scale * (top + bottom)) / 2];
 
-    console.log("bounds " + bounds[1][1] + " " + bounds[1][0] + " " + bounds[0][1] + " " + bounds[0][0])
-    console.log(scale)
-    console.log(offset)
-
     projection = d3.geo.mercator()
                 .translate(offset)
                 .scale(scale)
-                .rotate([-10, 0, 0]) // Solves the separation of Russia              
+                .rotate([-10, 0, 0]) // Solves the discontinuity of Russia              
 
     path = path.projection(projection);
 
-    svg.selectAll("path")  // Fuck this shit. http://bost.ocks.org/mike/join/, http://www.macwright.org/presentations/dcjq/
+
+    // Create zoom behavior
+    var zoom = d3.behavior.zoom()
+        .translate(projection.translate())
+        .scale(projection.scale())
+        .scaleExtent([0.1, 2 * height])
+        .on("zoom", zoomHandler);
+
+    function zoomHandler() {
+
+        // FIND A WAY TO SMOOTH THIS
+        projection.translate(d3.event.translate)
+            .scale(d3.event.scale);
+
+        svg.selectAll("path")
+            .attr("d", path);
+    };
+
+
+    // Create the SVG
+    var svg = d3.select("#map")
+            .append("svg")
+            .attr("height", height)
+            .attr("width", width)
+            .call(zoom);
+
+
+    // Data binding
+    svg.selectAll("path")  // Fuck this shit. I can't explain this. See: http://bost.ocks.org/mike/join/, http://www.macwright.org/presentations/dcjq/
         .data(countries.features)
         .enter()
         .append("path")
         .attr("id", function(d) { return d.id; })
         .attr("d", path)
-        .attr("class", "never-visited")
         .attr("stroke", "white")
         .attr("stroke-width", 0.3 + "px")
         .on("click", clickAction);
    
 
+    
    /* 
     
     RUS Merge: Solved by using map units instead of subunits
@@ -71,15 +96,51 @@ d3.json("raw_shp/worldnoa.json", function(error, world) {
 });
 
 
-var clickAction = function() {
+function clickAction() {
 
-    // change class
-    // zoom
+    var sidebarSelection = d3.select('input[name="sidebar-options"]:checked').node().value;
+    // Select action
+    // TO BE IMPLEMENTED
 
-    var selection = d3.select(this)
-    selection.classed("visited", !selection.classed("visited"));
+    // Change class based on selection on radio button
 
-    // find a way to remove the other class
-
-    // closure?
+    switch (sidebarSelection) {
+        case 'colour':
+            colourSelect.call(this);
+            break;
+        case 'reset':
+            resetSelect.call(this);
+            break;
+        case 'pin':
+            pinSelect.call(this);
+            break;
+    };
+    
 };
+
+function colourSelect() {
+    var colourSelection = d3.select('input[name="travel-status"]:checked').node().value;
+    var selection = d3.select(this);
+    var classOptions = ['never-visited', 'will-visit', 'visited']
+
+    for (var i = 0; i < classOptions.length; i++) {
+
+        var currentClass = classOptions[i];
+
+        if (!selection.classed(colourSelection)) {
+            selection.classed(currentClass, false);
+        };
+    };
+
+    selection.classed(colourSelection, !selection.classed(colourSelection));
+};
+
+
+function resetSelect() {
+
+}
+
+
+function pinSelect() {
+
+}
