@@ -3,8 +3,11 @@
 
 /* Colours */
 
-$light-grey: #c3c3c3;
-$grey: #a3a3a3;
+$grey0: #F3F3F3;
+$grey1: #e3e3e3;
+$grey4: #333333;
+$grey2: #c3c3c3;
+$grey3: #a3a3a3;
 $light-green: #66FF66;
 $green: #5CE65C;
 $light-yellow: #FFFF66;
@@ -37,10 +40,10 @@ body {
 
 	path {
 		transition: fill 0.25s;
-		fill: $light-grey;
+		fill: $grey1;
 
 		&:hover {
-			fill: $grey;
+			fill: $grey2;
 		}
 
 		&.visited {
@@ -58,6 +61,28 @@ body {
 				fill: $blue3;
 			}
 		}
+
+		&.place {
+			fill: $grey3;
+			cursor: pointer;
+		}
+	}
+
+	.place-label {
+		font-size: 10px;
+		font-family: sans-serif;
+		fill: $grey4;
+	}
+
+	.country-label {
+		font-size: 12px;
+		font-weight: bold;
+		font-family: sans-serif;
+		fill: $grey4;
+	}
+
+	text {
+		pointer-events: none;
 	}
 }
 
@@ -90,6 +115,10 @@ body {
 		color: grey;
 
 		input[type=radio] {
+			display: none;
+		}
+
+		input[type=checkbox] {
 			display: none;
 		}
 

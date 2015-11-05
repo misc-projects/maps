@@ -17,9 +17,9 @@ body {
   position: fixed; }
   #map path {
     transition: fill 0.25s;
-    fill: #c3c3c3; }
+    fill: #e3e3e3; }
     #map path:hover {
-      fill: #a3a3a3; }
+      fill: #c3c3c3; }
     #map path.visited {
       fill: #89BBFE; }
       #map path.visited:hover {
@@ -28,6 +28,20 @@ body {
       fill: #ACEDFF; }
       #map path.will-visit:hover {
         fill: #89BBFE; }
+    #map path.place {
+      fill: #a3a3a3;
+      cursor: pointer; }
+  #map .place-label {
+    font-size: 10px;
+    font-family: sans-serif;
+    fill: #333333; }
+  #map .country-label {
+    font-size: 12px;
+    font-weight: bold;
+    font-family: sans-serif;
+    fill: #333333; }
+  #map text {
+    pointer-events: none; }
 
 #sidebar {
   background-color: #efefef; }
@@ -51,6 +65,8 @@ body {
     transition: background-color 0.50s;
     color: grey; }
     #sidebar div.sidebar-banner input[type=radio] {
+      display: none; }
+    #sidebar div.sidebar-banner input[type=checkbox] {
       display: none; }
     #sidebar div.sidebar-banner h1.sidebar-title {
       font-family: sans-serif;
