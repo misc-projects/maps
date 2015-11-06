@@ -9,7 +9,6 @@ var width = d3.select("#map")
             .getBoundingClientRect()
             .height;
 
-
 // Create unit projection
 var projection = d3.geo.mercator()
                 .scale(1)
@@ -19,11 +18,10 @@ var path = d3.geo.path()
         .projection(projection);
 
 
-
-d3.json("raw_shp/worldnoata.json", function(error, world) {
+d3.json("raw_shp/world.json", function(error, world) {
     if (error) return console.error(error);
 
-    var countries = topojson.feature(world, world.objects.countries_noata);
+    var countries = topojson.feature(world, world.objects.countries);
     
     // Derive scale and offset translation from unit bounds
     var bounds  = path.bounds(countries),
@@ -41,39 +39,84 @@ d3.json("raw_shp/worldnoata.json", function(error, world) {
 
     path = path.projection(projection);
 
-
     // Create zoom behavior
     var zoom = d3.behavior.zoom()
         .translate(projection.translate())
         .scale(projection.scale())
-        .scaleExtent([0.1, 2 * height])
-        .on("zoom", zoomHandler);
+        .scaleExtent([1, 2 * height])
+        .on("zoom", zoomProjection);
 
-    function zoomHandler() {
+    /* NOTES ON PROJECTION 
 
-        // FIND A WAY TO SMOOTH THIS
+        For zoom functionality, zooming the svg instead of projection would be faster, but 
+        it will also zoom the labels.
+
+        The current implementation recalculates the projection, but it is slower.
+
+            To implement SVG zooming:
+            - uncomment the zoomSVG function below and replace the zoomProjection in the behaviour
+            - comment out the projection translations in the zoom behaviour
+            - reset svg translations and scale needs to be changed
+
+        function zoomSVG() {
+            g.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+
+        }  */
+
+    function zoomProjection() {
+        // Zoom projection
         projection.translate(d3.event.translate)
             .scale(d3.event.scale);
 
-        // Include paths in zoom action
+        // Including paths in zoom action
         svg.selectAll("path")
             .attr("d", path);
 
-        // Include labels in zoom action
+        // Zooming points?
+        // path.pointRadius(d3.event.scale / 100);
+
+        // Including labels in zoom action
         svg.selectAll("text")
-            .attr("transform", function(d) { return "translate(" + path.centroid(d) + ")"; });
+            .attr("transform", function(d) { 
+                return "translate(" + path.centroid(d) + ")"; });
     };
 
+    // Reset zoom on reset button press
+    d3.select("#reset-button").on("click", function() {
 
-    // Create the SVG
+        /* For zoomSVG, uncomment this
+
+        svg.transition()
+            .duration(1000)
+            .call(zoom.translate(offset).scale(scale).event);
+            */
+
+        projection.translate(offset)
+            .scale(scale);
+
+        // Resetting zoom event scale
+        zoom.scale(scale);
+        zoom.translate(offset);
+
+        svg.selectAll("path")
+            .attr("d", path);
+
+        svg.selectAll("text")
+            .attr("transform", function(d) { 
+                return "translate(" + path.centroid(d) + ")"; });
+    });
+
+
+    // Create the SVG and containing group
     var svg = d3.select("#map")
             .append("svg")
             .attr("height", height)
             .attr("width", width)
             .call(zoom);
+    var g = svg.append("g");
 
     // Data binding for country borders
-    var gMap = svg.append("g");
+    var gMap = g.append("g");
 
     gMap.selectAll("path")  // Fuck this shit. I can't explain this. See: http://bost.ocks.org/mike/join/, http://www.macwright.org/presentations/dcjq/
         .data(countries.features)
@@ -82,24 +125,26 @@ d3.json("raw_shp/worldnoata.json", function(error, world) {
         .attr("id", function(d) { return d.id; })
         .attr("d", path)
         .attr("stroke", "white")
-        .attr("stroke-width", 0.5 + "px")
+        .attr("stroke-width", 0.8 + "px")
+        .attr("class", "country-path")
         .on("click", clickAction);
         
-   
     // Data binding for places
-    var gPlaces = svg.append("g");
+    var gPlaces = g.append("g");
     var places = topojson.feature(world, world.objects.places_noata)
 
     path.pointRadius([2]); // Setting point size 
 
     // Show places only if the detail checkbox is checked
-    // Unchecks the detail checkbox (WHY IS IT CHECKED BY DEFAULT?)
-    d3.select("#checkbox-detail").property('checked', false).on("change", function() {
+    var detailCheckbox = d3.select("#checkbox-detail");
+
+    detailCheckbox.on("change", function() {
+        toggleCheckbox.call(this);
+    });
+
+    function toggleCheckbox() {
         if (this.checked) {
-
-
             // ** ADD FILTERS (COUNTRY OR CITY)
-
             // Load country names
             gMap.selectAll(".country-label")
                 .data(countries.features)
@@ -127,22 +172,31 @@ d3.json("raw_shp/worldnoata.json", function(error, world) {
                 });
 
             // Add city dots
-
-
             gPlaces.selectAll("path")
                 .data(places.features)
                 .enter()
                 .append("path")
                 .attr("d", path)
-                .attr("class", function(d) { return "place " + d.properties.sov_a3 + "-" + d.properties.name; });
-                    
+                .attr("class", function(d) { return "place " 
+                    + d.properties.sov_a3 + "-" 
+                    + d.properties.name
+                    .toLowerCase()
+                    .replace(/[^\w]/g,"");}); // Fixes some names not appearing (deletes whitespace)
+            
+            // ** ISSUE: CITY DOTS AND NAMES MUST HAVE SAME SOV_A3-NAME CLASS
+
             // Add city names 
             gPlaces.selectAll(".place-label")
                 .data(places.features)
                 .enter()
                 .append("text")
-                .attr("class", function(d) { return "place-label " + d.properties.sov_a3 + "-" + d.properties.name; }) // To fix duplicate names
-                .attr("transform", function(d) { return "translate(" + path.centroid(d) + ")"; }) // ** SOME VALUES NaN
+                .attr("class", function(d) { return "place-label " 
+                    + d.properties.sov_a3 + "-" 
+                    + d.properties.name
+                    .toLowerCase()
+                    .replace(/[^\w]/g,""); }) // To fix duplicate names
+                .attr("transform", function(d) { 
+                    return "translate(" + path.centroid(d) + ")"; })
                 .style("opacity", 0)
                 .attr("dy", ".35em")
                 .attr("x", function(d) { return d.geometry.coordinates[0] > -1 ? 6 : -6; })
@@ -152,13 +206,21 @@ d3.json("raw_shp/worldnoata.json", function(error, world) {
             // Set hover property on cities
             gPlaces.selectAll("path")
                 .on("mouseover", function(d) {
-                    var cityText = d3.selectAll("text." + d.properties.sov_a3 + "-" + d.properties.name);
+                    var cityText = d3.selectAll("text." 
+                        + d.properties.sov_a3 + "-" 
+                        + d.properties.name
+                        .toLowerCase()
+                        .replace(/[^\w]/g,""));
                     cityText.transition()
                         .duration(250)
                         .style("opacity", 1);
                 })
                 .on("mouseout", function(d) {
-                    var cityText = d3.selectAll("text." + d.properties.sov_a3 + "-" + d.properties.name);
+                    var cityText = d3.selectAll("text." 
+                        + d.properties.sov_a3 + "-" 
+                        + d.properties.name
+                        .toLowerCase()
+                        .replace(/[^\w]/g,""));
                     cityText.transition()
                         .duration(250)
                         .style("opacity", 0);
@@ -167,57 +229,45 @@ d3.json("raw_shp/worldnoata.json", function(error, world) {
 
         } else {
 
-            gMap.selectAll(".country-label")
-                .remove();
+            // Removes labels when 'Show Detail' is unselected
+            clearLabels()
 
-            gPlaces.selectAll("path")
-                .remove();
-
-            gPlaces.selectAll(".place-label")
-                .remove();
          }
-    });
+    };
+ 
+    function clearLabels() {
+        gMap.selectAll(".country-label")
+            .remove();
 
+        gPlaces.selectAll("path")
+            .remove();
 
-   /* 
-    
-    RUS Merge: Solved by using map units instead of subunits
+        gPlaces.selectAll(".place-label")
+            .remove();
+    }
 
-    var merger = d3.set(["RUS"]);
-    svg.append("path")
-        .datum(topojson.merge(world, world.objects.countries.geometries.filter(function(d) { return merger.has(d.id); })))
-        .attr("d", path)
-        .attr("class", "never-visited")
-        .attr("stroke", "white")
-        .attr("stroke-width", 0.3 + "px")
-        .on("click", clickAction);
-
-    */
-
-
+    function clearCountryFills() {
+        gMap.selectAll("path.country-path")
+            .classed("visited", false)
+            .classed("will-visit", false);
+    }
 });
 
 
 function clickAction() {
-
     var sidebarSelection = d3.select('input[name="sidebar-options"]:checked').node().value;
     // Select action
     // TO BE IMPLEMENTED
-
     // Change class based on selection on radio button
 
     switch (sidebarSelection) {
         case 'colour':
             colourSelect.call(this);
             break;
-        case 'reset':
-            resetSelect.call(this);
-            break;
         case 'pin':
             pinSelect.call(this);
             break;
-    };
-    
+    };    
 };
 
 function colourSelect() {
@@ -237,14 +287,5 @@ function colourSelect() {
     selection.classed(colourSelection, !selection.classed(colourSelection));
 };
 
-
-function resetSelect() {
-
-}
-
-
 function pinSelect() {
-
-}
-
-console.log(d3.select('input[id="checkbox-detail"]').property('checked', true))
+};

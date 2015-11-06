@@ -122,6 +122,10 @@ body {
 			display: none;
 		}
 
+		input[type=button] {
+			display: none;
+		}
+
 		h1.sidebar-title {
 			font-family: sans-serif;
 			font-size: 20px;
@@ -158,6 +162,20 @@ body {
 
 			&:hover {
 				background-color: $blue4;
+				color: $white;
+
+				.sidebar-content {
+					display: block;
+				}
+
+			}
+
+		}
+
+		&:nth-child(4) {
+
+			&:hover {
+				background-color: $blue2;
 				color: $white;
 
 				.sidebar-content {
