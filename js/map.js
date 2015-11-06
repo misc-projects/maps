@@ -60,10 +60,10 @@ d3.json("raw_shp/world.json", function(error, world) {
 
         function zoomSVG() {
             g.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
-
         }  */
 
     function zoomProjection() {
+
         // Zoom projection
         projection.translate(d3.event.translate)
             .scale(d3.event.scale);
@@ -79,31 +79,33 @@ d3.json("raw_shp/world.json", function(error, world) {
         svg.selectAll("text")
             .attr("transform", function(d) { 
                 return "translate(" + path.centroid(d) + ")"; });
+
     };
 
     // Reset zoom on reset button press
-    d3.select("#reset-button").on("click", function() {
+    d3.select("#reset-zoom").on("click", function() {
 
-        /* For zoomSVG, uncomment this
-
+        /* For zoomSVG, uncomment this:
         svg.transition()
             .duration(1000)
             .call(zoom.translate(offset).scale(scale).event);
             */
 
-        projection.translate(offset)
-            .scale(scale);
 
-        // Resetting zoom event scale
-        zoom.scale(scale);
-        zoom.translate(offset);
+            projection.translate(offset)
+                .scale(scale);
 
-        svg.selectAll("path")
-            .attr("d", path);
+            // Resetting zoom event scale
+            zoom.scale(scale);
+            zoom.translate(offset);
 
-        svg.selectAll("text")
-            .attr("transform", function(d) { 
-                return "translate(" + path.centroid(d) + ")"; });
+            svg.selectAll("path")
+                .attr("d", path);
+
+            svg.selectAll("text")
+                .attr("transform", function(d) { 
+                    return "translate(" + path.centroid(d) + ")"; });
+
     });
 
 
@@ -133,7 +135,20 @@ d3.json("raw_shp/world.json", function(error, world) {
     var gPlaces = g.append("g");
     var places = topojson.feature(world, world.objects.places_noata)
 
-    path.pointRadius([2]); // Setting point size 
+    // Setting point size 
+    /* NOTE ON OBJECT TYPES: 
+        pins: "Points"
+        city dots: "Features"
+
+        This will preferrably be changed
+    */
+    path.pointRadius(function(d) { 
+        if (d.type == "Point") {
+            return 5;
+        } else {
+            return 2; 
+        }
+    });
 
     // Show places only if the detail checkbox is checked
     var detailCheckbox = d3.select("#checkbox-detail");
@@ -251,41 +266,69 @@ d3.json("raw_shp/world.json", function(error, world) {
             .classed("visited", false)
             .classed("will-visit", false);
     }
-});
 
+    function clickAction() {
+        var sidebarSelection = d3.select('input[name="sidebar-options"]:checked').node().value;
+        // Select action
+        // **TO BE IMPLEMENTED
+        // Change class based on selection on radio button
 
-function clickAction() {
-    var sidebarSelection = d3.select('input[name="sidebar-options"]:checked').node().value;
-    // Select action
-    // TO BE IMPLEMENTED
-    // Change class based on selection on radio button
-
-    switch (sidebarSelection) {
-        case 'colour':
-            colourSelect.call(this);
-            break;
-        case 'pin':
-            pinSelect.call(this);
-            break;
-    };    
-};
-
-function colourSelect() {
-    var colourSelection = d3.select('input[name="travel-status"]:checked').node().value;
-    var selection = d3.select(this);
-    var classOptions = ['never-visited', 'will-visit', 'visited']
-
-    for (var i = 0; i < classOptions.length; i++) {
-
-        var currentClass = classOptions[i];
-
-        if (!selection.classed(colourSelection)) {
-            selection.classed(currentClass, false);
-        };
+        switch (sidebarSelection) {
+            case 'colour':
+                colourSelect.call(this);
+                break;
+            case 'pin':
+                pinSelect.call(this);
+                break;
+        };    
     };
 
-    selection.classed(colourSelection, !selection.classed(colourSelection));
-};
+    function colourSelect() {
+        var colourSelection = d3.select('input[name="travel-status"]:checked').node().value;
+        var selection = d3.select(this);
+        var classOptions = ['never-visited', 'will-visit', 'visited']
 
-function pinSelect() {
-};
+        for (var i = 0; i < classOptions.length; i++) {
+
+            var currentClass = classOptions[i];
+
+            if (!selection.classed(colourSelection)) {
+                selection.classed(currentClass, false);
+            };
+        };
+
+        selection.classed(colourSelection, !selection.classed(colourSelection));
+    };
+
+    // Create new group for pins
+    var gPin = g.append("g");
+    var circle = d3.geo.circle();
+
+    function pinSelect() {
+        var coordinates = d3.mouse(this);
+        var mapCoor = projection.invert(coordinates)
+
+        /*
+        gPin.append("circle")
+            .attr("cx", coordinates[0])
+            .attr("cy", coordinates[1])
+            .attr("r", 5)
+            .style("fill", "red");
+        
+        */
+
+        gPin.insert("path")
+            .datum({type: "Point", coordinates: mapCoor})
+            .attr("class", "pin")
+            .attr("d", path)
+            .attr("stroke-width", 2 + "px")
+            .attr("stroke", "blue")
+            .attr("pointer-events", "all")
+            .style("fill", "none")
+            .append("svg:title") // Hover to show latlong
+            .text("lat: " + mapCoor[0].toFixed(2) 
+                + "\nlong: " + mapCoor[1].toFixed(2));
+            
+    };
+
+});
