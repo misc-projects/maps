@@ -1,0 +1,4 @@
+scrap/
+npm-debug.log
+.sass-cache/
+css/master.css.map
