@@ -317,7 +317,7 @@ d3.json("raw_shp/world.json", function(error, world) {
         
         */
 
-        gPin.insert("path")
+        gPin.append("path")
             .datum({type: "Point", coordinates: mapCoor})
             .attr("class", "pin")
             .attr("d", path)

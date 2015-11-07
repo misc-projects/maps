@@ -2,3 +2,5 @@ scrap/
 npm-debug.log
 .sass-cache/
 css/master.css.map
+raw_shp/ne_50m*
+todolist

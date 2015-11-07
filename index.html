@@ -3,6 +3,7 @@
 
 <head>
     <link href="css/master.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
 <body>
@@ -11,45 +12,66 @@
 
     <div id="sidebar">
 
-        <div id="reset-bar" class="sidebar-banner">
-            <input type="button" name="reset" value="reset">
-            <label id="reset-zoom" for="reset">
-                <h1 class="sidebar-title">Reset</h1>
+        <div id="reset-bar" class="sidebar-container">
+            <div class="sidebar-banner">
+                <input type="button" name="reset" value="reset">
+                <label id="reset-zoom" for="reset">
+                    <h1 class="sidebar-icon">
+                    <i class="material-icons">zoom_out</i>
+                </h1>
             </label>
+             </div>
         </div>
 
-        <div id="detail-bar" class="sidebar-banner">
-            <input id="checkbox-detail" type="checkbox" name="map-detail" value="detail">
-            <label for="checkbox-detail">
-                <h1 class="sidebar-title">Show Detail</h1>
-            </label>
-        </div>
+        <div id="detail-bar" class="sidebar-container">
+            <div class="sidebar-banner">
+                <input id="checkbox-detail" type="checkbox" name="map-detail" class="sidebar-options" value="detail">
+                <label for="checkbox-detail" class="sidebar-options">
+                    <div class="sidebar-icon expandable-button">
+                        <i class="material-icons">map</i>
+                    </div>
+                </label>
+                <input id="country-name" type="checkbox" class="sidebar-item" name="detail-selection" value="city">
+                <label for="country-name" class="sidebar-item-button"><i class="material-icons">public</i></label>
 
-        <div id="pin-bar" class="sidebar-banner">
-            <input id="radio-pin" type="radio" name="sidebar-options" value="pin">
-            <label for="radio-pin">
-                <h1 class="sidebar-title">Pin</h1>
-            </label>
-        </div>
-
-        <div id="colour-bar" class="sidebar-banner">
-            <input id="radio-colour" type="radio" name="sidebar-options" value="colour" checked>
-            <label for="radio-colour">
-                <h1 class="sidebar-title">Colour</h1>
-            </label>
-
-            <div class="sidebar-content">
-                <form action="">
-                    <input type="radio" name="travel-status" value="never-visited">Never<br>
-                    <input type="radio" name="travel-status" value="will-visit">Wishlist<br>
-                    <input type="radio" name="travel-status" value="visited" checked>Visited<br>
-                </form>
+                <input id="city-name" class="sidebar-item" type="radio" name="detail-selection" value="country">
+                <label for="city-name" class="sidebar-item-button"><i class="material-icons">location_city</i></label>
             </div>
         </div>
 
+        <div id="pin-bar" class="sidebar-container">
+            <div class="sidebar-banner">
+                <input id="radio-pin" type="radio" name="sidebar-options" class="sidebar-options" value="pin">
+                <label for="radio-pin" class="sidebar-options">
+                    <div class="sidebar-icon expandable-button">
+                    <i class="material-icons">pin_drop</i>
+                </div>
+            </label>
+             </div>
+        </div>
 
+        <div id="visit-bar" class="sidebar-container">
+            <div class="sidebar-banner">
+                <input id="radio-colour" type="radio" name="sidebar-options" class="sidebar-options" value="colour">
+                <label class="sidebar-options" for="radio-colour">
+                    <div class="sidebar-icon expandable-button">
+                        <i class="material-icons">check</i>
+                    </div>
+                </label>
 
+                
+                <input id="visited"type="radio" class="sidebar-item" name="travel-status" value="visited" checked>
+                <label for="visited" class="sidebar-item-button" title="Visited"><i class="material-icons">check_box</i></label>
+
+                <input id="will-visit" class="sidebar-item" type="radio" name="travel-status" value="will-visit">
+                <label for="will-visit" class="sidebar-item-button" title="Want to visit"><i class="material-icons">indeterminate_check_box</i></label>
+
+                <input id="never-visited" class="sidebar-item" type="radio" name="travel-status" value="never-visited">
+                <label id="never-visited-button" for="never-visited" class="sidebar-item-button" title="Never visited"><i class="material-icons">check_box_outline_blank</i></label>
+            </div>
+        </div>
     </div>
+
 
     <!-- script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>

@@ -33,7 +33,7 @@ body {
 }
 
 #map {
-	width: 80%;
+	width: 100%;
 	height: 100%;
 	margin-bottom: 0;
 	position: fixed;
@@ -88,14 +88,11 @@ body {
 
 #sidebar {
 
-	background-color: #efefef;
-
 	@media screen and (min-width: 768px) {
-		width: 20%;
 		height: 100%;
 		z-index: 1;
 		position: fixed;
-		right: 0;
+		right: 20px;
 	}
 	
 	@media screen and (min-width: 480px) {
@@ -107,11 +104,12 @@ body {
 		display: none;
 	}
 
-	div.sidebar-banner {
-		width: 100%;
-		height: 50px;
+	div.sidebar-container {
+		border-radius: 30px;
+		width: 60px;
+		height: 60px;
 		z-index: 2;
-		transition: background-color 0.50s;
+		margin-top: 20px;
 		color: grey;
 
 		input[type=radio] {
@@ -126,65 +124,97 @@ body {
 			display: none;
 		}
 
-		h1.sidebar-title {
-			font-family: sans-serif;
-			font-size: 20px;
-			line-height: 20px;
-			padding: 15px;
+		.sidebar-banner: {
+			position: relative;
+			color: grey;
+		}
+
+		label {
+			z-index: 3;
+			transition: background-color 0.50s;
 			display: block;
-			vertical-align: middle;
-			text-align: right
+			border-radius: 50%;
+			position: absolute;
+			width: 60px;
+			height: 60px;
 
-		}
-
-
-		.sidebar-content {
-			display: none;
-		}
-
-		&:nth-child(1) {
-
-			&:hover {
-				background-color: $blue5;
-				color: $white;
+			&.sidebar-options {
+				z-index: 5;
 			}
-		}
-
-		&:nth-child(2) {
 
 			&:hover {
 				background-color: $blue3;
 				color: $white;
 			}
+
 		}
 
-		&:nth-child(3) {
+		.sidebar-icon {
+			position: absolute;
+			width: 60px;
+			height: 60px;
+			padding: 16px 0 0 18px ;
+			font-size: 30px;
+			text-align: middle;
+		}
 
-			&:hover {
-				background-color: $blue4;
+		.sidebar-item-button {
+	
+			position: absolute;
+			background-color: $blue3;
+
+			i {
+				position: absolute;
+				top: 18px;
+				left: 18px;
 				color: $white;
-
-				.sidebar-content {
-					display: block;
-				}
-
 			}
-
 		}
 
-		&:nth-child(4) {
+		.sidebar-options~.sidebar-item-button {
+			opacity: 0;
+			transition: all ease;
 
-			&:hover {
-				background-color: $blue2;
-				color: $white;
+				&:nth-child(4) {
+					transition-duration: 100ms * 1;
+      			}
 
-				.sidebar-content {
-					display: block;
-				}
+      			&:nth-child(6) {
+      				transition-duration: 100ms * 2;
+      			}	
 
-			}
-
+				&:nth-child(8) {
+					transition-duration: 100ms * 3;
+      			}
+      		
 		}
+
+
+		.sidebar-options:checked~label {
+			opacity: 1;
+			background-color: $blue3;
+			color: $white;
+
+			&.sidebar-item-button {
+
+				&:nth-child(4) {
+					opacity: 0.8;
+      				transform: translate(-40px * 2, 0);
+      			}
+
+      			&:nth-child(6) {
+      				opacity: 0.6;
+      				transform: translate(-40px * 4, 0);
+      			}	
+
+				&:nth-child(8) {
+					opacity: 0.4;
+      				transform: translate(-40px * 6, 0);
+      			}
+      		}
+      		
+		}
+
 	}
 
 }
