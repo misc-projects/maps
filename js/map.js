@@ -91,7 +91,6 @@ d3.json("raw_shp/world.json", function(error, world) {
             .call(zoom.translate(offset).scale(scale).event);
             */
 
-
             projection.translate(offset)
                 .scale(scale);
 
@@ -196,7 +195,7 @@ d3.json("raw_shp/world.json", function(error, world) {
                     + d.properties.sov_a3 + "-" 
                     + d.properties.name
                     .toLowerCase()
-                    .replace(/[^\w]/g,"");}); // Fixes some names not appearing (deletes whitespace)
+                    .replace(/[^\w]/g,"");}); // Fixes some names not appearing (deletes everything but letters)
             
             // ** ISSUE: CITY DOTS AND NAMES MUST HAVE SAME SOV_A3-NAME CLASS
 
@@ -269,10 +268,8 @@ d3.json("raw_shp/world.json", function(error, world) {
 
     function clickAction() {
         var sidebarSelection = d3.select('input[name="sidebar-options"]:checked').node().value;
-        // Select action
-        // **TO BE IMPLEMENTED
-        // Change class based on selection on radio button
-
+        
+        // Select action upon path click
         switch (sidebarSelection) {
             case 'visit':
                 visitSelect.call(this);
@@ -340,9 +337,15 @@ function colourSelect() {
     var selectedColour = d3.select(".colour-input:checked").node().value;
     var selection = d3.select(this);
 
-    selection
-        .style("fill", selectedColour);   
-}
+    if (getHex(selection.style("fill")) != selectedColour) {
+        selection
+            .style("fill", selectedColour);   
+    } else {
+        selection
+            .style("fill", null);
+    };
+    
+};
 
 // Dynamic HTML to add colour selection palette
 function appendPalette() {
@@ -377,3 +380,13 @@ function appendPalette() {
 }
 
 appendPalette();
+
+function getHex(rgb) {
+    rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+
+    function hex(x) {
+        return ("0" + parseInt(x).toString(16)).slice(-2);
+    };
+
+    return ("#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3])).toUpperCase();
+};
