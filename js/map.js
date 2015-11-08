@@ -274,17 +274,21 @@ d3.json("raw_shp/world.json", function(error, world) {
         // Change class based on selection on radio button
 
         switch (sidebarSelection) {
-            case 'colour':
-                colourSelect.call(this);
+            case 'visit':
+                visitSelect.call(this);
                 break;
             case 'pin':
                 pinSelect.call(this);
                 break;
+            case 'colour':
+                colourSelect.call(this);
+                break;
         };    
     };
 
-    function colourSelect() {
-        var colourSelection = d3.select('input[name="travel-status"]:checked').node().value;
+    // Changes the class for a polygon based on visit status
+    function visitSelect() {
+        var visitSelection = d3.select('input[name="travel-status"]:checked').node().value;
         var selection = d3.select(this);
         var classOptions = ['never-visited', 'will-visit', 'visited']
 
@@ -292,18 +296,18 @@ d3.json("raw_shp/world.json", function(error, world) {
 
             var currentClass = classOptions[i];
 
-            if (!selection.classed(colourSelection)) {
+            if (!selection.classed(visitSelection)) {
                 selection.classed(currentClass, false);
             };
         };
-
-        selection.classed(colourSelection, !selection.classed(colourSelection));
+        selection.classed(visitSelection, !selection.classed(visitSelection));
     };
 
-    // Create new group for pins
+    // Create new SVG group for pins
     var gPin = g.append("g");
     var circle = d3.geo.circle();
 
+    // Add pins to map
     function pinSelect() {
         var coordinates = d3.mouse(this);
         var mapCoor = projection.invert(coordinates)
@@ -327,8 +331,49 @@ d3.json("raw_shp/world.json", function(error, world) {
             .style("fill", "none")
             .append("svg:title") // Hover to show latlong
             .text("lat: " + mapCoor[0].toFixed(2) 
-                + "\nlong: " + mapCoor[1].toFixed(2));
-            
+                + "\nlong: " + mapCoor[1].toFixed(2));       
     };
-
 });
+
+// Colours countries in the map based on .colour-input radio buttons
+function colourSelect() {
+    var selectedColour = d3.select(".colour-input:checked").node().value;
+    var selection = d3.select(this);
+
+    selection
+        .style("fill", selectedColour);   
+}
+
+// Dynamic HTML to add colour selection palette
+function appendPalette() {
+    var paletteMenu = d3.select("#colour-bar .sidebar-banner")
+    var colourSelection = ["#EF9EA3", "#C795BF", "#92B0DB", "#A1E09A", "#FEF59D", "#F9CB8D", "#F19D7F"]
+
+    paletteMenu.selectAll(".colour-input")
+        .data(colourSelection)
+        .enter()
+        .append("div")
+            .attr("class", "colour")
+        .append("label")
+            .attr("for", function(d, i) { return "colour-button" + (i + 1); })
+            .attr("class", "colour")
+            .attr("id", function(d, i) { return "colour" + (i + 1); })
+            .style("background-colour", function(d) { return d; })
+            .text(" ")
+        .append("input")
+            .attr("type", "radio")
+            .attr("id", function(d, i) { return "colour-button" + (i + 1) ; })
+            .attr("value", function(d) { return d; })
+            .attr("name", "colour-input")
+            .attr("class", "colour-input")
+    
+    paletteMenu.selectAll("label.colour")
+        .append("div")
+        .attr("class", "colour-selected");
+
+    paletteMenu.selectAll("label.colour")
+        .append("div")
+        .attr("class", "colour-unselected");
+}
+
+appendPalette();
