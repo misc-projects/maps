@@ -75,6 +75,12 @@ d3.json("raw_shp/world.json", function(error, world) {
         // Zooming points?
         // path.pointRadius(d3.event.scale / 100);
 
+        // Include images
+        svg.selectAll("image")
+            .attr("x", function(d,i) {return projection(d.coordinates)[0] - 10;})
+            .attr("y", function(d,i) {return projection(d.coordinates)[1] - 20;})
+
+
         // Including labels in zoom action
         svg.selectAll("text")
             .attr("transform", function(d) { 
@@ -302,34 +308,38 @@ d3.json("raw_shp/world.json", function(error, world) {
 
     // Create new SVG group for pins
     var gPin = g.append("g");
-    var circle = d3.geo.circle();
 
     // Add pins to map
     function pinSelect() {
         var coordinates = d3.mouse(this);
         var mapCoor = projection.invert(coordinates)
 
-        /*
-        gPin.append("circle")
-            .attr("cx", coordinates[0])
-            .attr("cy", coordinates[1])
-            .attr("r", 5)
-            .style("fill", "red");
-        
-        */
+        if (d3.select('input[name="pin-toggle"]:checked').node().value == 'pin-on') {
 
-        gPin.append("path")
-            .datum({type: "Point", coordinates: mapCoor})
-            .attr("class", "pin")
-            .attr("d", path)
-            .attr("stroke-width", 2 + "px")
-            .attr("stroke", "blue")
-            .attr("pointer-events", "all")
-            .style("fill", "none")
-            .append("svg:title") // Hover to show latlong
-            .text("lat: " + mapCoor[0].toFixed(2) 
-                + "\nlong: " + mapCoor[1].toFixed(2));       
+            var pinImage = gPin.selectAll(".pins")
+                            .data([{coordinates: mapCoor}])
+                            .enter()
+                            .append("image")
+                            .attr("xlink:href", "images/marker.png")
+                            .attr("x", function(d, i) { return projection(d.coordinates)[0] - 10; }) // Offset image so cursor at point
+                            .attr("y", function(d, i) { return projection(d.coordinates)[1] - 20; })
+                            .attr("width", "20")
+                            .attr("height", "20")
+                            .attr("class", "marker")
+                            .append("svg:title") // Hover to show latlong
+                            .text("lat: " + mapCoor[0].toFixed(2) 
+                                + "\nlong: " + mapCoor[1].toFixed(2)); 
+
+        };
+
+        // Remove pins when clicked
+        gPin.selectAll("image.marker").on("click", function() {
+            if (d3.select('input[name="pin-toggle"]:checked').node().value == 'pin-off') {
+                d3.select(this).remove();
+            }
+        });
     };
+
 });
 
 // Colours countries in the map based on .colour-input radio buttons
@@ -350,7 +360,7 @@ function colourSelect() {
 // Dynamic HTML to add colour selection palette
 function appendPalette() {
     var paletteMenu = d3.select("#colour-bar .sidebar-banner")
-    var colourSelection = ["#EF9EA3", "#C795BF", "#92B0DB", "#A1E09A", "#FEF59D", "#F9CB8D", "#F19D7F"]
+    var colourSelection = ["#EF9EA3", "#C795BF", "#92B0DB", "#88EEFA", "#A1E09A", "#FEF59D", "#F9CB8D", "#F19D7F"]
 
     paletteMenu.selectAll(".colour-input")
         .data(colourSelection)

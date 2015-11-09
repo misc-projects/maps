@@ -42,6 +42,7 @@ body {
 	path {
 		transition: fill 0.25s;
 		fill: $grey1;
+		cursor: cell;
 
 		&:hover {
 			fill: $grey2;
@@ -49,7 +50,6 @@ body {
 
 		&.place {
 			fill: $grey3;
-			cursor: pointer;
 		}
 	}
 
@@ -69,6 +69,10 @@ body {
 	text {
 		pointer-events: none;
 	}
+
+	image {
+		cursor: pointer;
+	}
 }
 
 #sidebar {
@@ -81,7 +85,9 @@ body {
 	}
 	
 	@media screen and (min-width: 480px) {
-		/* SLIDE? */
+		position: fixed;
+		right: 10px;
+		height: 100%;
 	}
 
 
@@ -90,11 +96,11 @@ body {
 	}
 
 	div.sidebar-container {
-		border-radius: 30px;
-		width: 60px;
-		height: 60px;
+		border-radius: 50%;
+		width: 40px;
+		height: 40px;
 		z-index: 2;
-		margin-top: 40px;
+		margin-top: 20px;
 		color: grey;
 
 		&:first-child {
@@ -124,8 +130,9 @@ body {
 			display: block;
 			border-radius: 50%;
 			position: absolute;
-			width: 60px;
-			height: 60px;
+			width: 40px;
+			height: 40px;
+			cursor: pointer;
 
 			&.sidebar-options {
 				z-index: 5;
@@ -141,9 +148,11 @@ body {
 		.sidebar-icon {
 			z-index: 4;
 			position: absolute;
-			width: 60px;
-			height: 60px;
-			padding: 16px 0 0 18px ;
+			width: 40px;
+			height: 40px;
+			padding: 0px 0 0 0px ;
+			top: 5px;
+			left: 8px;
 			font-size: 30px;
 			text-align: middle;
 		}
@@ -154,8 +163,8 @@ body {
 
 			i {
 				position: absolute;
-				top: 18px;
-				left: 18px;
+				top: 9px;
+				left: 8px;
 				color: $white;
 			}
 		}
@@ -189,23 +198,23 @@ body {
 
 				&:nth-child(4) {
 					opacity: 0.8;
-      				transform: scale(0.8) translate(-40px * 2, 0);
+      				transform: scale(0.8) translate(-30px * 2, 0);
       			}
 
       			&:nth-child(6) {
       				opacity: 0.6;
-      				transform: scale(0.8) translate(-40px * 4, 0);
+      				transform: scale(0.8) translate(-30px * 4, 0);
       			}	
 
 				&:nth-child(8) {
 					opacity: 0.4;
-      				transform: scale(0.8) translate(-40px * 6, 0);
+      				transform: scale(0.8) translate(-30px * 6, 0);
       			}
       		}
       		
 		}
 
-		$colourSelection: #EF9EA3, #C795BF, #92B0DB, #A1E09A, #FEF59D, #F9CB8D, #F19D7F;
+		$colourSelection: #EF9EA3, #C795BF, #92B0DB, #88EEFA, #A1E09A, #FEF59D, #F9CB8D, #F19D7F;
 
 		div.colour {
 			position: relative;
@@ -242,8 +251,8 @@ body {
 
 		@for $i from 1 through length($colourSelection) {
     		#colour#{$i} {
-    			top: 20px;
-    			left: 20px;
+    			top: 10px;
+    			left: 10px;
         		background-color: nth($colourSelection, $i);
     		}
 		}
@@ -261,20 +270,30 @@ body {
 		}
 
 		/* Setting up circular open animation($pi / 6) * ($i) */
-		$distance: -60px;
+		
 		$pi: 3.14;
 
 		.sidebar-options:checked~div.colour {
 			opacity: 1;
-			@for $i from 1 through 7 {
+			@for $i from 1 through 4 {
 
-				$angle: 30deg * ($i - 4);
+				$angle: 15deg * ($i - 2.5);
+				$distance: -90px;
+
+    			&:nth-child(#{$i + 2}) {
+        			transform: translate(cos($angle) * $distance + 40px, sin($angle) * $distance);
+        		}
+			}
+
+			@for $i from 5 through 8 {
+
+				$angle: 15deg * ($i - 6.5);
+				$distance: -90px;
 
     			&:nth-child(#{$i + 2}) {
         			transform: translate(cos($angle) * $distance, sin($angle) * $distance);
         		}
 			}
-
 		}
 
 		.colour-input:checked~.colour-unselected {

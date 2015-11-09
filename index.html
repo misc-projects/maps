@@ -42,12 +42,20 @@
         <div id="pin-bar" class="sidebar-container">
             <div class="sidebar-banner">
                 <input id="radio-pin" type="radio" name="sidebar-options" class="sidebar-options" value="pin">
-                <label for="radio-pin" class="sidebar-options">
+                <label class="sidebar-options" for="radio-pin">
                     <div class="sidebar-icon expandable-button">
-                    <i class="material-icons">pin_drop</i>
-                </div>
-            </label>
-             </div>
+                        <i class="material-icons">pin_drop</i>
+                    </div>
+                </label>
+
+                
+                <input id="pin-on"type="radio" class="sidebar-item" name="pin-toggle" value="pin-on" checked>
+                <label for="pin-on" class="sidebar-item-button" title="Place marker"><i class="material-icons">location_on</i></label>
+
+                <input id="pin-off" class="sidebar-item" type="radio" name="pin-toggle" value="pin-off">
+                <label for="pin-off" class="sidebar-item-button" title="Remove marker"><i class="material-icons">location_off</i></label>
+
+            </div>
         </div>
 
         <div id="visit-bar" class="sidebar-container">
