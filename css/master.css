@@ -12,53 +12,54 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  background-color: #FAFAFA;
 }
 
-/* line 36, master.scss */
+/* line 37, master.scss */
 #map {
   width: 100%;
   height: 100%;
   margin-bottom: 0;
   position: fixed;
 }
-/* line 42, master.scss */
+/* line 43, master.scss */
 #map path {
   transition: fill 0.25s;
-  fill: #e3e3e3;
+  fill: #D3D3D3;
   cursor: cell;
 }
-/* line 47, master.scss */
+/* line 48, master.scss */
 #map path:hover {
   fill: #c3c3c3;
 }
-/* line 51, master.scss */
+/* line 52, master.scss */
 #map path.place {
   fill: #a3a3a3;
 }
-/* line 56, master.scss */
+/* line 57, master.scss */
 #map .place-label {
   font-size: 10px;
-  font-family: sans-serif;
+  font-family: 'Open Sans', sans-serif;
   fill: #333333;
 }
-/* line 62, master.scss */
+/* line 63, master.scss */
 #map .country-label {
   font-size: 12px;
-  font-weight: bold;
-  font-family: sans-serif;
+  font-weight: 600;
+  font-family: 'Open Sans', sans-serif;
   fill: #333333;
 }
-/* line 69, master.scss */
+/* line 70, master.scss */
 #map text {
   pointer-events: none;
 }
-/* line 73, master.scss */
+/* line 74, master.scss */
 #map image {
   cursor: pointer;
 }
 
 @media screen and (min-width: 768px) {
-  /* line 78, master.scss */
+  /* line 79, master.scss */
   #sidebar {
     height: 100%;
     z-index: 1;
@@ -67,7 +68,7 @@ body {
   }
 }
 @media screen and (min-width: 480px) {
-  /* line 78, master.scss */
+  /* line 79, master.scss */
   #sidebar {
     position: fixed;
     right: 10px;
@@ -75,12 +76,24 @@ body {
   }
 }
 @media screen and (max-width: 479px) {
-  /* line 78, master.scss */
+  /* line 79, master.scss */
   #sidebar {
     display: none;
   }
 }
-/* line 98, master.scss */
+/* line 99, master.scss */
+#sidebar input[type=radio] {
+  display: none;
+}
+/* line 103, master.scss */
+#sidebar input[type=checkbox] {
+  display: none;
+}
+/* line 107, master.scss */
+#sidebar input[type=button] {
+  display: none;
+}
+/* line 112, master.scss */
 #sidebar div.sidebar-container {
   border-radius: 50%;
   width: 40px;
@@ -92,23 +105,11 @@ body {
   .sidebar-banner-color: grey;
   /* Setting up circular open animation($pi / 6) * ($i) */
 }
-/* line 106, master.scss */
+/* line 120, master.scss */
 #sidebar div.sidebar-container:first-child {
   margin-top: 20px;
 }
-/* line 110, master.scss */
-#sidebar div.sidebar-container input[type=radio] {
-  display: none;
-}
-/* line 114, master.scss */
-#sidebar div.sidebar-container input[type=checkbox] {
-  display: none;
-}
-/* line 118, master.scss */
-#sidebar div.sidebar-container input[type=button] {
-  display: none;
-}
-/* line 128, master.scss */
+/* line 131, master.scss */
 #sidebar div.sidebar-container label {
   z-index: 3;
   transition: background-color 0.50s;
@@ -119,16 +120,16 @@ body {
   height: 40px;
   cursor: pointer;
 }
-/* line 138, master.scss */
+/* line 142, master.scss */
 #sidebar div.sidebar-container label.sidebar-options {
   z-index: 5;
 }
-/* line 142, master.scss */
+/* line 146, master.scss */
 #sidebar div.sidebar-container label:hover {
   background-color: #89BBFE;
   color: #FFFFFF;
 }
-/* line 149, master.scss */
+/* line 153, master.scss */
 #sidebar div.sidebar-container .sidebar-icon {
   z-index: 4;
   position: absolute;
@@ -140,64 +141,64 @@ body {
   font-size: 30px;
   text-align: middle;
 }
-/* line 161, master.scss */
+/* line 165, master.scss */
 #sidebar div.sidebar-container .sidebar-item-button {
   position: absolute;
 }
-/* line 165, master.scss */
+/* line 169, master.scss */
 #sidebar div.sidebar-container .sidebar-item-button i {
   position: absolute;
   top: 9px;
   left: 8px;
   color: #FFFFFF;
 }
-/* line 173, master.scss */
+/* line 177, master.scss */
 #sidebar div.sidebar-container .sidebar-options ~ .sidebar-item-button {
   opacity: 0;
   transition: all ease;
 }
-/* line 177, master.scss */
+/* line 181, master.scss */
 #sidebar div.sidebar-container .sidebar-options ~ .sidebar-item-button:nth-child(4) {
   transition-duration: 100ms;
 }
-/* line 181, master.scss */
+/* line 185, master.scss */
 #sidebar div.sidebar-container .sidebar-options ~ .sidebar-item-button:nth-child(6) {
   transition-duration: 200ms;
 }
-/* line 185, master.scss */
+/* line 189, master.scss */
 #sidebar div.sidebar-container .sidebar-options ~ .sidebar-item-button:nth-child(8) {
   transition-duration: 300ms;
 }
-/* line 191, master.scss */
+/* line 195, master.scss */
 #sidebar div.sidebar-container .sidebar-options:checked ~ label {
   opacity: 1;
   background-color: #89BBFE;
   color: #FFFFFF;
 }
-/* line 199, master.scss */
+/* line 203, master.scss */
 #sidebar div.sidebar-container .sidebar-options:checked ~ label.sidebar-item-button:nth-child(4) {
   opacity: 0.8;
   transform: scale(0.8) translate(-60px, 0);
 }
-/* line 204, master.scss */
+/* line 208, master.scss */
 #sidebar div.sidebar-container .sidebar-options:checked ~ label.sidebar-item-button:nth-child(6) {
   opacity: 0.6;
   transform: scale(0.8) translate(-120px, 0);
 }
-/* line 209, master.scss */
+/* line 213, master.scss */
 #sidebar div.sidebar-container .sidebar-options:checked ~ label.sidebar-item-button:nth-child(8) {
   opacity: 0.4;
   transform: scale(0.8) translate(-180px, 0);
 }
-/* line 218, master.scss */
+/* line 222, master.scss */
 #sidebar div.sidebar-container .sidebar-item:checked + label i {
   color: #333333;
 }
-/* line 226, master.scss */
+/* line 230, master.scss */
 #sidebar div.sidebar-container div.colour {
   position: relative;
 }
-/* line 230, master.scss */
+/* line 234, master.scss */
 #sidebar div.sidebar-container label.colour {
   z-index: 6;
   transition: background-color 0.50s;
@@ -207,7 +208,7 @@ body {
   width: 20px;
   height: 20px;
 }
-/* line 240, master.scss */
+/* line 244, master.scss */
 #sidebar div.sidebar-container .colour-selected {
   position: absolute;
   width: 10px;
@@ -216,7 +217,7 @@ body {
   top: 5px;
   left: 5px;
 }
-/* line 249, master.scss */
+/* line 253, master.scss */
 #sidebar div.sidebar-container .colour-unselected {
   position: absolute;
   width: 10px;
@@ -226,129 +227,129 @@ body {
   top: 5px;
   left: 5px;
 }
-/* line 260, master.scss */
+/* line 264, master.scss */
 #sidebar div.sidebar-container #colour1 {
   top: 10px;
   left: 10px;
   background-color: #EF9EA3;
 }
-/* line 260, master.scss */
+/* line 264, master.scss */
 #sidebar div.sidebar-container #colour2 {
   top: 10px;
   left: 10px;
   background-color: #C795BF;
 }
-/* line 260, master.scss */
+/* line 264, master.scss */
 #sidebar div.sidebar-container #colour3 {
   top: 10px;
   left: 10px;
   background-color: #92B0DB;
 }
-/* line 260, master.scss */
+/* line 264, master.scss */
 #sidebar div.sidebar-container #colour4 {
   top: 10px;
   left: 10px;
   background-color: #88EEFA;
 }
-/* line 260, master.scss */
+/* line 264, master.scss */
 #sidebar div.sidebar-container #colour5 {
   top: 10px;
   left: 10px;
   background-color: #A1E09A;
 }
-/* line 260, master.scss */
+/* line 264, master.scss */
 #sidebar div.sidebar-container #colour6 {
   top: 10px;
   left: 10px;
   background-color: #FEF59D;
 }
-/* line 260, master.scss */
+/* line 264, master.scss */
 #sidebar div.sidebar-container #colour7 {
   top: 10px;
   left: 10px;
   background-color: #F9CB8D;
 }
-/* line 260, master.scss */
+/* line 264, master.scss */
 #sidebar div.sidebar-container #colour8 {
   top: 10px;
   left: 10px;
   background-color: #F19D7F;
 }
-/* line 268, master.scss */
+/* line 272, master.scss */
 #sidebar div.sidebar-container #colour1 .colour-selected {
   background-color: #EF9EA3;
 }
-/* line 268, master.scss */
+/* line 272, master.scss */
 #sidebar div.sidebar-container #colour2 .colour-selected {
   background-color: #C795BF;
 }
-/* line 268, master.scss */
+/* line 272, master.scss */
 #sidebar div.sidebar-container #colour3 .colour-selected {
   background-color: #92B0DB;
 }
-/* line 268, master.scss */
+/* line 272, master.scss */
 #sidebar div.sidebar-container #colour4 .colour-selected {
   background-color: #88EEFA;
 }
-/* line 268, master.scss */
+/* line 272, master.scss */
 #sidebar div.sidebar-container #colour5 .colour-selected {
   background-color: #A1E09A;
 }
-/* line 268, master.scss */
+/* line 272, master.scss */
 #sidebar div.sidebar-container #colour6 .colour-selected {
   background-color: #FEF59D;
 }
-/* line 268, master.scss */
+/* line 272, master.scss */
 #sidebar div.sidebar-container #colour7 .colour-selected {
   background-color: #F9CB8D;
 }
-/* line 268, master.scss */
+/* line 272, master.scss */
 #sidebar div.sidebar-container #colour8 .colour-selected {
   background-color: #F19D7F;
 }
-/* line 273, master.scss */
+/* line 277, master.scss */
 #sidebar div.sidebar-container .sidebar-options ~ div.colour {
   opacity: 0;
   transition: all ease;
   transition-duration: 250ms;
 }
-/* line 283, master.scss */
+/* line 287, master.scss */
 #sidebar div.sidebar-container .sidebar-options:checked ~ div.colour {
   opacity: 1;
 }
-/* line 290, master.scss */
+/* line 294, master.scss */
 #sidebar div.sidebar-container .sidebar-options:checked ~ div.colour:nth-child(3) {
   transform: translate(-43.14916px, 34.44151px);
 }
-/* line 290, master.scss */
+/* line 294, master.scss */
 #sidebar div.sidebar-container .sidebar-options:checked ~ div.colour:nth-child(4) {
   transform: translate(-49.23004px, 11.74736px);
 }
-/* line 290, master.scss */
+/* line 294, master.scss */
 #sidebar div.sidebar-container .sidebar-options:checked ~ div.colour:nth-child(5) {
   transform: translate(-49.23004px, -11.74736px);
 }
-/* line 290, master.scss */
+/* line 294, master.scss */
 #sidebar div.sidebar-container .sidebar-options:checked ~ div.colour:nth-child(6) {
   transform: translate(-43.14916px, -34.44151px);
 }
-/* line 301, master.scss */
+/* line 305, master.scss */
 #sidebar div.sidebar-container .sidebar-options:checked ~ div.colour:nth-child(7) {
   transform: translate(-83.14916px, 34.44151px);
 }
-/* line 301, master.scss */
+/* line 305, master.scss */
 #sidebar div.sidebar-container .sidebar-options:checked ~ div.colour:nth-child(8) {
   transform: translate(-89.23004px, 11.74736px);
 }
-/* line 301, master.scss */
+/* line 305, master.scss */
 #sidebar div.sidebar-container .sidebar-options:checked ~ div.colour:nth-child(9) {
   transform: translate(-89.23004px, -11.74736px);
 }
-/* line 301, master.scss */
+/* line 305, master.scss */
 #sidebar div.sidebar-container .sidebar-options:checked ~ div.colour:nth-child(10) {
   transform: translate(-83.14916px, -34.44151px);
 }
-/* line 308, master.scss */
+/* line 312, master.scss */
 #sidebar div.sidebar-container .colour-input:checked ~ .colour-unselected {
   display: none;
 }

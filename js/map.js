@@ -111,6 +111,10 @@ d3.json("raw_shp/world.json", function(error, world) {
                 .attr("transform", function(d) { 
                     return "translate(" + path.centroid(d) + ")"; });
 
+            svg.selectAll("image")
+                .attr("x", function(d,i) {return projection(d.coordinates)[0] - 10;})
+                .attr("y", function(d,i) {return projection(d.coordinates)[1] - 20;})
+
     });
 
 
@@ -134,31 +138,17 @@ d3.json("raw_shp/world.json", function(error, world) {
         .attr("stroke", "white")
         .attr("stroke-width", 0.8 + "px")
         .attr("class", "country-path")
-        .on("click", clickAction);
+        .on("click", pathClick);
         
     // Data binding for places
     var gPlaces = g.append("g");
     var places = topojson.feature(world, world.objects.places_noata)
 
     // Setting point size 
-    /* NOTE ON OBJECT TYPES: 
-        pins: "Points"
-        city dots: "Features"
-
-        This will preferrably be changed
-    */
-    path.pointRadius(function(d) { 
-        if (d.type == "Point") {
-            return 5;
-        } else {
-            return 2; 
-        }
-    });
+    path.pointRadius(2);
 
     // Show places only if the detail checkbox is checked
-    var detailCheckbox = d3.select("#checkbox-detail");
-
-    detailCheckbox.on("change", function() {
+    d3.select("#checkbox-detail").on("change", function() {
         toggleCheckbox.call(this);
     });
 
@@ -266,16 +256,11 @@ d3.json("raw_shp/world.json", function(error, world) {
             .remove();
     }
 
-    function clearCountryFills() {
-        gMap.selectAll("path.country-path")
-            .classed("visited", false)
-            .classed("will-visit", false);
-    }
-
-    function clickAction() {
+    // Select action upon path click
+    function pathClick() {
         var sidebarSelection = d3.select('input[name="sidebar-options"]:checked').node().value;
         
-        // Select action upon path click
+        
         switch (sidebarSelection) {
             case 'visit':
                 visitSelect.call(this);
@@ -340,6 +325,21 @@ d3.json("raw_shp/world.json", function(error, world) {
         });
     };
 
+    // Clear button
+    d3.select("#clear-button").on("click", function() {
+        d3.selectAll("path.country-path")
+            .style("fill", null)
+            .classed("visited", false)
+            .classed("will-visit", false);
+
+        d3.selectAll("image")
+            .remove();
+
+        d3.select("#map-detail").attr("checked", false); // ** DOES NOT DO CSS ANIMATION!
+        d3.select("#hidden-radio").attr("checked", true);
+
+        clearLabels();
+    });
 });
 
 // Colours countries in the map based on .colour-input radio buttons
@@ -354,13 +354,24 @@ function colourSelect() {
         selection
             .style("fill", null);
     };
+
+    function getHex(rgb) {
+        rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+
+        function hex(x) {
+            return ("0" + parseInt(x).toString(16)).slice(-2);
+        };
+
+        return ("#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3])).toUpperCase();
+    };
     
 };
 
 // Dynamic HTML to add colour selection palette
 function appendPalette() {
     var paletteMenu = d3.select("#colour-bar .sidebar-banner")
-    var colourSelection = ["#EF9EA3", "#C795BF", "#92B0DB", "#88EEFA", "#A1E09A", "#FEF59D", "#F9CB8D", "#F19D7F"]
+    var colourSelection = ["#EF9EA3", "#C795BF", "#92B0DB", "#88EEFA", 
+                            "#A1E09A", "#FEF59D", "#F9CB8D", "#F19D7F"]
 
     paletteMenu.selectAll(".colour-input")
         .data(colourSelection)
@@ -391,12 +402,6 @@ function appendPalette() {
 
 appendPalette();
 
-function getHex(rgb) {
-    rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
 
-    function hex(x) {
-        return ("0" + parseInt(x).toString(16)).slice(-2);
-    };
 
-    return ("#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3])).toUpperCase();
-};
+

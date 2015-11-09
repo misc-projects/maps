@@ -3,6 +3,7 @@
 
 <head>
     <link href="css/master.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
@@ -15,7 +16,7 @@
         <div id="reset-bar" class="sidebar-container">
             <div class="sidebar-banner">
                 <input type="button" name="reset" value="reset">
-                <label id="reset-zoom" for="reset">
+                <label id="reset-zoom" for="reset" title="Reset zoom">
                     <h1 class="sidebar-icon">
                     <i class="material-icons">zoom_out</i>
                 </h1>
@@ -26,7 +27,7 @@
         <div id="detail-bar" class="sidebar-container">
             <div class="sidebar-banner">
                 <input id="checkbox-detail" type="checkbox" name="map-detail" class="sidebar-options" value="detail">
-                <label for="checkbox-detail" class="sidebar-options">
+                <label for="checkbox-detail" class="sidebar-options" title="Show details and names">
                     <div class="sidebar-icon expandable-button">
                         <i class="material-icons">map</i>
                     </div>
@@ -41,7 +42,7 @@
 
         <div id="pin-bar" class="sidebar-container">
             <div class="sidebar-banner">
-                <input id="radio-pin" type="radio" name="sidebar-options" class="sidebar-options" value="pin">
+                <input id="radio-pin" type="radio" name="sidebar-options" class="sidebar-options" value="pin" title="Add/remove markers">
                 <label class="sidebar-options" for="radio-pin">
                     <div class="sidebar-icon expandable-button">
                         <i class="material-icons">pin_drop</i>
@@ -61,7 +62,7 @@
         <div id="visit-bar" class="sidebar-container">
             <div class="sidebar-banner">
                 <input id="radio-visit" type="radio" name="sidebar-options" class="sidebar-options" value="visit">
-                <label class="sidebar-options" for="radio-visit">
+                <label class="sidebar-options" for="radio-visit" title="Add to bucketlist">
                     <div class="sidebar-icon expandable-button">
                         <i class="material-icons">check</i>
                     </div>
@@ -82,13 +83,24 @@
         <div id="colour-bar" class="sidebar-container">
             <div class="sidebar-banner">
                 <input id="radio-colour" type="radio" name="sidebar-options" class="sidebar-options" value="colour">
-                <label class="sidebar-options" for="radio-colour">
+                <label class="sidebar-options" for="radio-colour" title="Add colour">
                     <div class="sidebar-icon expandable-button">
                         <i class="material-icons">palette</i>
                     </div>
                 </label>
             </div>
-            
+        </div>
+
+        <div id="clear-all" class="sidebar-container">
+            <div class="sidebar-banner">
+                <input type="radio" name="sidebar-options" value="clear" id="clear-button">
+                <label for="clear-button" title="Clear map">
+                    <div class="sidebar-icon">
+                    <i class="material-icons">clear</i>
+                </div>
+                </label>
+             </div>
+        </div>
     </div>
 
 
