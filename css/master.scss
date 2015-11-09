@@ -119,6 +119,7 @@ body {
 			display: none;
 		}
 
+
 		.sidebar-banner: {
 			position: relative;
 			color: grey;
@@ -184,7 +185,6 @@ body {
 				&:nth-child(8) {
 					transition-duration: 100ms * 3;
       			}
-      		
 		}
 
 
@@ -214,7 +214,14 @@ body {
       		
 		}
 
-		$colourSelection: #EF9EA3, #C795BF, #92B0DB, #88EEFA, #A1E09A, #FEF59D, #F9CB8D, #F19D7F;
+		.sidebar-item:checked+label {
+			i {
+				color: $grey4;
+			}
+		}
+
+		$colourSelection: #EF9EA3, #C795BF, #92B0DB, #88EEFA, 
+						#A1E09A, #FEF59D, #F9CB8D, #F19D7F;
 
 		div.colour {
 			position: relative;
@@ -281,7 +288,8 @@ body {
 				$distance: -90px;
 
     			&:nth-child(#{$i + 2}) {
-        			transform: translate(cos($angle) * $distance + 40px, sin($angle) * $distance);
+        			transform: translate(cos($angle) * $distance + 40px, 
+        								sin($angle) * $distance);
         		}
 			}
 
@@ -291,7 +299,8 @@ body {
 				$distance: -90px;
 
     			&:nth-child(#{$i + 2}) {
-        			transform: translate(cos($angle) * $distance, sin($angle) * $distance);
+        			transform: translate(cos($angle) * $distance, 
+        								sin($angle) * $distance);
         		}
 			}
 		}
@@ -299,7 +308,6 @@ body {
 		.colour-input:checked~.colour-unselected {
 				display: none;
 			}
-
 	}
 
 }
