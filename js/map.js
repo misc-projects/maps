@@ -30,7 +30,9 @@ d3.json("raw_shp/world.json", function(error, world) {
         top = bounds[1][1],
         bottom = bounds[0][1],
         scale = 0.95 / Math.max((right - left) / width, (top - bottom) / height),
-        offset = [(right - left) * scale / 2, (height - scale * (top + bottom)) / 2];
+        offset = [width / 2, (height - scale * (top + bottom)) / 2]; // center SVG horizontally 
+
+        //offset = [(right - left) * scale / 2, (height - scale * (top + bottom)) / 2]; // align SVG left
 
     projection = d3.geo.mercator()
                 .translate(offset)
@@ -49,7 +51,7 @@ d3.json("raw_shp/world.json", function(error, world) {
     /* NOTES ON PROJECTION 
 
         For zoom functionality, zooming the svg instead of projection would be faster, but 
-        it will also zoom the labels.
+        it will also zoom the pins and labels.
 
         The current implementation recalculates the projection, but it is slower.
 
@@ -153,8 +155,21 @@ d3.json("raw_shp/world.json", function(error, world) {
     });
 
     function toggleCheckbox() {
+        if (!this.checked) {
+            // Removes labels when 'Show Detail' is unselected
+            d3.select("#country-name").property("checked", false);
+            d3.select("#city-name").property("checked", false);
+            clearLabels()
+         };
+    };
+
+    d3.select("#country-name").on("change", function() {
+        showCountryNames.call(this);
+    });
+
+    function showCountryNames() {
+        console.log(this)
         if (this.checked) {
-            // ** ADD FILTERS (COUNTRY OR CITY)
             // Load country names
             gMap.selectAll(".country-label")
                 .data(countries.features)
@@ -165,8 +180,7 @@ d3.json("raw_shp/world.json", function(error, world) {
                 .style("text-anchor", "middle")
                 .style("opacity", 0)
                 .text(function(d) { return d.properties.name; });
-
-            // Set hover property on country names
+           // Set hover property on country names
             gMap.selectAll("path")
                 .on("mouseover", function(d) {
                     var countryText = d3.selectAll("." + d.id);
@@ -181,7 +195,19 @@ d3.json("raw_shp/world.json", function(error, world) {
                         .style("opacity", 0);
                 });
 
-            // Add city dots
+            } else {
+                gMap.selectAll(".country-label")
+                    .remove();
+        };
+    };
+
+    d3.select("#city-name").on("change", function() {
+        showCities.call(this);
+    });
+
+    function showCities() {
+        if (this.checked) {
+            // Add city dots 
             gPlaces.selectAll("path")
                 .data(places.features)
                 .enter()
@@ -213,7 +239,7 @@ d3.json("raw_shp/world.json", function(error, world) {
                 .style("text-anchor", function(d) { return d.geometry.coordinates[0] > -1 ? "start" : "end"; })
                 .text(function(d) { return d.properties.name; });
 
-            // Set hover property on cities
+           // Set hover property on cities
             gPlaces.selectAll("path")
                 .on("mouseover", function(d) {
                     var cityText = d3.selectAll("text." 
@@ -236,14 +262,15 @@ d3.json("raw_shp/world.json", function(error, world) {
                         .style("opacity", 0);
                 });
 
-
         } else {
 
-            // Removes labels when 'Show Detail' is unselected
-            clearLabels()
+            gPlaces.selectAll("path")
+                .remove();
 
-         }
-    };
+            gPlaces.selectAll(".place-label")
+                .remove();
+        }
+     };
  
     function clearLabels() {
         gMap.selectAll(".country-label")
@@ -260,7 +287,6 @@ d3.json("raw_shp/world.json", function(error, world) {
     function pathClick() {
         var sidebarSelection = d3.select('input[name="sidebar-options"]:checked').node().value;
         
-        
         switch (sidebarSelection) {
             case 'visit':
                 visitSelect.call(this);
@@ -276,20 +302,54 @@ d3.json("raw_shp/world.json", function(error, world) {
 
     // Changes the class for a polygon based on visit status
     function visitSelect() {
-        var visitSelection = d3.select('input[name="travel-status"]:checked').node().value;
-        var selection = d3.select(this);
-        var classOptions = ['never-visited', 'will-visit', 'visited']
+        var visitSelection = d3.select('input[name="travel-status"]:checked').node().value,
+            selection = d3.select(this),
+            countryName = selection.datum().properties.name,
+            classOptions = ['never-visited', 'will-visit', 'visited'],
+            classIndex = classOptions.indexOf(visitSelection);
 
         for (var i = 0; i < classOptions.length; i++) {
 
             var currentClass = classOptions[i];
 
-            if (!selection.classed(visitSelection)) {
+            // Gets rid of all other classes
+            if (visitSelection != currentClass) {
                 selection.classed(currentClass, false);
             };
+
         };
+
+        
+        // Update visit lists ** consider refactoring
+        var visitStatus = { "never-visited" : [],
+                            "will-visit" : [],
+                            "visited" : [] };
+
+        if (!selection.classed(visitSelection)) {
+            addToList(countryName, classIndex);
+            removeFromList(countryName, (classIndex + 1) % 3);
+            removeFromList(countryName, (classIndex + 2) % 3);
+        } else {
+            removeFromList(countryName, classIndex);
+        }
+        
         selection.classed(visitSelection, !selection.classed(visitSelection));
+
+        function addToList(countryName, classIndex) {
+            visitStatus[classOptions[classIndex]].push(countryName);
+        }
+
+        function removeFromList(countryName, classIndex) {
+            var i = visitStatus[classOptions[classIndex]].indexOf(countryName);
+            if (i !== -1) {
+                visitStatus[classOptions[classIndex]].splice(i, 1)
+            };
+        }
+    
+        // Display boards
+        
     };
+
 
     // Create new SVG group for pins
     var gPin = g.append("g");
@@ -301,21 +361,20 @@ d3.json("raw_shp/world.json", function(error, world) {
 
         if (d3.select('input[name="pin-toggle"]:checked').node().value == 'pin-on') {
 
-            var pinImage = gPin.selectAll(".pins")
-                            .data([{coordinates: mapCoor}])
-                            .enter()
-                            .append("image")
-                            .attr("xlink:href", "images/marker.png")
-                            .attr("x", function(d, i) { return projection(d.coordinates)[0] - 10; }) // Offset image so cursor at point
-                            .attr("y", function(d, i) { return projection(d.coordinates)[1] - 20; })
-                            .attr("width", "20")
-                            .attr("height", "20")
-                            .attr("class", "marker")
-                            .append("svg:title") // Hover to show latlong
-                            .text("lat: " + mapCoor[0].toFixed(2) 
-                                + "\nlong: " + mapCoor[1].toFixed(2)); 
-
-        };
+            gPin.selectAll(".pins")
+                .data([{coordinates: mapCoor}])
+                .enter()
+                    .append("image")
+                    .attr("xlink:href", "images/marker.png")
+                    .attr("x", function(d, i) { return projection(d.coordinates)[0] - 10; }) // Offset image so cursor at point
+                    .attr("y", function(d, i) { return projection(d.coordinates)[1] - 20; })
+                    .attr("width", "20")
+                    .attr("height", "20")
+                    .attr("class", "marker")
+                    .append("svg:title") // Hover to show latlong
+                    .text("lat: " + mapCoor[0].toFixed(2) 
+                        + "\nlong: " + mapCoor[1].toFixed(2)); 
+                };
 
         // Remove pins when clicked
         gPin.selectAll("image.marker").on("click", function() {
@@ -335,8 +394,7 @@ d3.json("raw_shp/world.json", function(error, world) {
         d3.selectAll("image")
             .remove();
 
-        d3.select("#map-detail").attr("checked", false); // ** DOES NOT DO CSS ANIMATION!
-        d3.select("#hidden-radio").attr("checked", true);
+        d3.selectAll("input").property("checked", false);
 
         clearLabels();
     });

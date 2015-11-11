@@ -58,9 +58,47 @@ body {
   cursor: pointer;
 }
 
+/* line 79, master.scss */
+input {
+  display: none;
+}
+
+/* line 83, master.scss */
+#sidebar-left {
+  position: fixed;
+  left: 20px;
+  z-index: 1;
+  height: 100%;
+}
+/* line 89, master.scss */
+#sidebar-left .sidebar-options:checked ~ label {
+  opacity: 1;
+  background-color: #89BBFE;
+  color: #FFFFFF;
+}
+/* line 96, master.scss */
+#sidebar-left .sidebar-options:checked ~ label.sidebar-item-button:nth-child(4) {
+  opacity: 0.8;
+  transform: scale(0.8) translate(60px, 0);
+}
+/* line 100, master.scss */
+#sidebar-left .sidebar-options:checked ~ label.sidebar-item-button:nth-child(6) {
+  opacity: 0.6;
+  transform: scale(0.8) translate(120px, 0);
+}
+/* line 104, master.scss */
+#sidebar-left .sidebar-options:checked ~ label.sidebar-item-button:nth-child(8) {
+  opacity: 0.4;
+  transform: scale(0.8) translate(180px, 0);
+}
+
+/* line 114, master.scss */
+#sidebar-right {
+  /* Setting up circular open animation($pi / 6) * ($i) */
+}
 @media screen and (min-width: 768px) {
-  /* line 79, master.scss */
-  #sidebar {
+  /* line 114, master.scss */
+  #sidebar-right {
     height: 100%;
     z-index: 1;
     position: fixed;
@@ -68,33 +106,203 @@ body {
   }
 }
 @media screen and (min-width: 480px) {
-  /* line 79, master.scss */
-  #sidebar {
+  /* line 114, master.scss */
+  #sidebar-right {
     position: fixed;
     right: 10px;
     height: 100%;
   }
 }
 @media screen and (max-width: 479px) {
-  /* line 79, master.scss */
-  #sidebar {
+  /* line 114, master.scss */
+  #sidebar-right {
     display: none;
   }
 }
-/* line 99, master.scss */
-#sidebar input[type=radio] {
+/* line 134, master.scss */
+#sidebar-right .sidebar-options:checked ~ label {
+  opacity: 1;
+  background-color: #89BBFE;
+  color: #FFFFFF;
+}
+/* line 141, master.scss */
+#sidebar-right .sidebar-options:checked ~ label.sidebar-item-button:nth-child(4) {
+  opacity: 0.8;
+  transform: scale(0.8) translate(-60px, 0);
+}
+/* line 145, master.scss */
+#sidebar-right .sidebar-options:checked ~ label.sidebar-item-button:nth-child(6) {
+  opacity: 0.6;
+  transform: scale(0.8) translate(-120px, 0);
+}
+/* line 149, master.scss */
+#sidebar-right .sidebar-options:checked ~ label.sidebar-item-button:nth-child(8) {
+  opacity: 0.4;
+  transform: scale(0.8) translate(-180px, 0);
+}
+/* line 160, master.scss */
+#sidebar-right div.colour {
+  position: relative;
+}
+/* line 164, master.scss */
+#sidebar-right label.colour {
+  z-index: 6;
+  transition: background-color 0.50s;
+  display: block;
+  border-radius: 50%;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+}
+/* line 174, master.scss */
+#sidebar-right .colour-selected {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  top: 5px;
+  left: 5px;
+}
+/* line 183, master.scss */
+#sidebar-right .colour-unselected {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  top: 5px;
+  left: 5px;
+}
+/* line 194, master.scss */
+#sidebar-right #colour1 {
+  top: 10px;
+  left: 10px;
+  background-color: #EF9EA3;
+}
+/* line 194, master.scss */
+#sidebar-right #colour2 {
+  top: 10px;
+  left: 10px;
+  background-color: #C795BF;
+}
+/* line 194, master.scss */
+#sidebar-right #colour3 {
+  top: 10px;
+  left: 10px;
+  background-color: #92B0DB;
+}
+/* line 194, master.scss */
+#sidebar-right #colour4 {
+  top: 10px;
+  left: 10px;
+  background-color: #88EEFA;
+}
+/* line 194, master.scss */
+#sidebar-right #colour5 {
+  top: 10px;
+  left: 10px;
+  background-color: #A1E09A;
+}
+/* line 194, master.scss */
+#sidebar-right #colour6 {
+  top: 10px;
+  left: 10px;
+  background-color: #FEF59D;
+}
+/* line 194, master.scss */
+#sidebar-right #colour7 {
+  top: 10px;
+  left: 10px;
+  background-color: #F9CB8D;
+}
+/* line 194, master.scss */
+#sidebar-right #colour8 {
+  top: 10px;
+  left: 10px;
+  background-color: #F19D7F;
+}
+/* line 202, master.scss */
+#sidebar-right #colour1 .colour-selected {
+  background-color: #EF9EA3;
+}
+/* line 202, master.scss */
+#sidebar-right #colour2 .colour-selected {
+  background-color: #C795BF;
+}
+/* line 202, master.scss */
+#sidebar-right #colour3 .colour-selected {
+  background-color: #92B0DB;
+}
+/* line 202, master.scss */
+#sidebar-right #colour4 .colour-selected {
+  background-color: #88EEFA;
+}
+/* line 202, master.scss */
+#sidebar-right #colour5 .colour-selected {
+  background-color: #A1E09A;
+}
+/* line 202, master.scss */
+#sidebar-right #colour6 .colour-selected {
+  background-color: #FEF59D;
+}
+/* line 202, master.scss */
+#sidebar-right #colour7 .colour-selected {
+  background-color: #F9CB8D;
+}
+/* line 202, master.scss */
+#sidebar-right #colour8 .colour-selected {
+  background-color: #F19D7F;
+}
+/* line 207, master.scss */
+#sidebar-right .sidebar-options ~ div.colour {
+  opacity: 0;
+  transition: all ease;
+  transition-duration: 250ms;
+}
+/* line 216, master.scss */
+#sidebar-right .sidebar-options:checked ~ div.colour {
+  opacity: 1;
+}
+/* line 222, master.scss */
+#sidebar-right .sidebar-options:checked ~ div.colour:nth-child(3) {
+  transform: translate(-43.14916px, 34.44151px);
+}
+/* line 222, master.scss */
+#sidebar-right .sidebar-options:checked ~ div.colour:nth-child(4) {
+  transform: translate(-49.23004px, 11.74736px);
+}
+/* line 222, master.scss */
+#sidebar-right .sidebar-options:checked ~ div.colour:nth-child(5) {
+  transform: translate(-49.23004px, -11.74736px);
+}
+/* line 222, master.scss */
+#sidebar-right .sidebar-options:checked ~ div.colour:nth-child(6) {
+  transform: translate(-43.14916px, -34.44151px);
+}
+/* line 232, master.scss */
+#sidebar-right .sidebar-options:checked ~ div.colour:nth-child(7) {
+  transform: translate(-83.14916px, 34.44151px);
+}
+/* line 232, master.scss */
+#sidebar-right .sidebar-options:checked ~ div.colour:nth-child(8) {
+  transform: translate(-89.23004px, 11.74736px);
+}
+/* line 232, master.scss */
+#sidebar-right .sidebar-options:checked ~ div.colour:nth-child(9) {
+  transform: translate(-89.23004px, -11.74736px);
+}
+/* line 232, master.scss */
+#sidebar-right .sidebar-options:checked ~ div.colour:nth-child(10) {
+  transform: translate(-83.14916px, -34.44151px);
+}
+/* line 239, master.scss */
+#sidebar-right .colour-input:checked ~ .colour-unselected {
   display: none;
 }
-/* line 103, master.scss */
-#sidebar input[type=checkbox] {
-  display: none;
-}
-/* line 107, master.scss */
-#sidebar input[type=button] {
-  display: none;
-}
-/* line 112, master.scss */
-#sidebar div.sidebar-container {
+
+/* get responsive */
+/* line 246, master.scss */
+div.sidebar-container {
   border-radius: 50%;
   width: 40px;
   height: 40px;
@@ -103,14 +311,13 @@ body {
   color: grey;
   .sidebar-banner-position: relative;
   .sidebar-banner-color: grey;
-  /* Setting up circular open animation($pi / 6) * ($i) */
 }
-/* line 120, master.scss */
-#sidebar div.sidebar-container:first-child {
+/* line 254, master.scss */
+div.sidebar-container:first-child {
   margin-top: 20px;
 }
-/* line 131, master.scss */
-#sidebar div.sidebar-container label {
+/* line 263, master.scss */
+div.sidebar-container label {
   z-index: 3;
   transition: background-color 0.50s;
   display: block;
@@ -120,17 +327,17 @@ body {
   height: 40px;
   cursor: pointer;
 }
-/* line 142, master.scss */
-#sidebar div.sidebar-container label.sidebar-options {
+/* line 273, master.scss */
+div.sidebar-container label.sidebar-options {
   z-index: 5;
 }
-/* line 146, master.scss */
-#sidebar div.sidebar-container label:hover {
+/* line 277, master.scss */
+div.sidebar-container label:hover {
   background-color: #89BBFE;
   color: #FFFFFF;
 }
-/* line 153, master.scss */
-#sidebar div.sidebar-container .sidebar-icon {
+/* line 284, master.scss */
+div.sidebar-container .sidebar-icon {
   z-index: 4;
   position: absolute;
   width: 40px;
@@ -141,217 +348,35 @@ body {
   font-size: 30px;
   text-align: middle;
 }
-/* line 165, master.scss */
-#sidebar div.sidebar-container .sidebar-item-button {
+/* line 296, master.scss */
+div.sidebar-container .sidebar-item-button {
   position: absolute;
 }
-/* line 169, master.scss */
-#sidebar div.sidebar-container .sidebar-item-button i {
+/* line 300, master.scss */
+div.sidebar-container .sidebar-item-button i {
   position: absolute;
   top: 9px;
   left: 8px;
   color: #FFFFFF;
 }
-/* line 177, master.scss */
-#sidebar div.sidebar-container .sidebar-options ~ .sidebar-item-button {
+/* line 308, master.scss */
+div.sidebar-container .sidebar-options ~ .sidebar-item-button {
   opacity: 0;
   transition: all ease;
-}
-/* line 181, master.scss */
-#sidebar div.sidebar-container .sidebar-options ~ .sidebar-item-button:nth-child(4) {
-  transition-duration: 100ms;
-}
-/* line 185, master.scss */
-#sidebar div.sidebar-container .sidebar-options ~ .sidebar-item-button:nth-child(6) {
-  transition-duration: 200ms;
-}
-/* line 189, master.scss */
-#sidebar div.sidebar-container .sidebar-options ~ .sidebar-item-button:nth-child(8) {
-  transition-duration: 300ms;
-}
-/* line 195, master.scss */
-#sidebar div.sidebar-container .sidebar-options:checked ~ label {
-  opacity: 1;
-  background-color: #89BBFE;
-  color: #FFFFFF;
-}
-/* line 203, master.scss */
-#sidebar div.sidebar-container .sidebar-options:checked ~ label.sidebar-item-button:nth-child(4) {
-  opacity: 0.8;
-  transform: scale(0.8) translate(-60px, 0);
-}
-/* line 208, master.scss */
-#sidebar div.sidebar-container .sidebar-options:checked ~ label.sidebar-item-button:nth-child(6) {
-  opacity: 0.6;
-  transform: scale(0.8) translate(-120px, 0);
-}
-/* line 213, master.scss */
-#sidebar div.sidebar-container .sidebar-options:checked ~ label.sidebar-item-button:nth-child(8) {
-  opacity: 0.4;
-  transform: scale(0.8) translate(-180px, 0);
-}
-/* line 222, master.scss */
-#sidebar div.sidebar-container .sidebar-item:checked + label i {
-  color: #333333;
-}
-/* line 230, master.scss */
-#sidebar div.sidebar-container div.colour {
-  position: relative;
-}
-/* line 234, master.scss */
-#sidebar div.sidebar-container label.colour {
-  z-index: 6;
-  transition: background-color 0.50s;
-  display: block;
-  border-radius: 50%;
-  position: absolute;
-  width: 20px;
-  height: 20px;
-}
-/* line 244, master.scss */
-#sidebar div.sidebar-container .colour-selected {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  top: 5px;
-  left: 5px;
-}
-/* line 253, master.scss */
-#sidebar div.sidebar-container .colour-unselected {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: #FFFFFF;
-  top: 5px;
-  left: 5px;
-}
-/* line 264, master.scss */
-#sidebar div.sidebar-container #colour1 {
-  top: 10px;
-  left: 10px;
-  background-color: #EF9EA3;
-}
-/* line 264, master.scss */
-#sidebar div.sidebar-container #colour2 {
-  top: 10px;
-  left: 10px;
-  background-color: #C795BF;
-}
-/* line 264, master.scss */
-#sidebar div.sidebar-container #colour3 {
-  top: 10px;
-  left: 10px;
-  background-color: #92B0DB;
-}
-/* line 264, master.scss */
-#sidebar div.sidebar-container #colour4 {
-  top: 10px;
-  left: 10px;
-  background-color: #88EEFA;
-}
-/* line 264, master.scss */
-#sidebar div.sidebar-container #colour5 {
-  top: 10px;
-  left: 10px;
-  background-color: #A1E09A;
-}
-/* line 264, master.scss */
-#sidebar div.sidebar-container #colour6 {
-  top: 10px;
-  left: 10px;
-  background-color: #FEF59D;
-}
-/* line 264, master.scss */
-#sidebar div.sidebar-container #colour7 {
-  top: 10px;
-  left: 10px;
-  background-color: #F9CB8D;
-}
-/* line 264, master.scss */
-#sidebar div.sidebar-container #colour8 {
-  top: 10px;
-  left: 10px;
-  background-color: #F19D7F;
-}
-/* line 272, master.scss */
-#sidebar div.sidebar-container #colour1 .colour-selected {
-  background-color: #EF9EA3;
-}
-/* line 272, master.scss */
-#sidebar div.sidebar-container #colour2 .colour-selected {
-  background-color: #C795BF;
-}
-/* line 272, master.scss */
-#sidebar div.sidebar-container #colour3 .colour-selected {
-  background-color: #92B0DB;
-}
-/* line 272, master.scss */
-#sidebar div.sidebar-container #colour4 .colour-selected {
-  background-color: #88EEFA;
-}
-/* line 272, master.scss */
-#sidebar div.sidebar-container #colour5 .colour-selected {
-  background-color: #A1E09A;
-}
-/* line 272, master.scss */
-#sidebar div.sidebar-container #colour6 .colour-selected {
-  background-color: #FEF59D;
-}
-/* line 272, master.scss */
-#sidebar div.sidebar-container #colour7 .colour-selected {
-  background-color: #F9CB8D;
-}
-/* line 272, master.scss */
-#sidebar div.sidebar-container #colour8 .colour-selected {
-  background-color: #F19D7F;
-}
-/* line 277, master.scss */
-#sidebar div.sidebar-container .sidebar-options ~ div.colour {
-  opacity: 0;
-  transition: all ease;
-  transition-duration: 250ms;
-}
-/* line 287, master.scss */
-#sidebar div.sidebar-container .sidebar-options:checked ~ div.colour {
-  opacity: 1;
-}
-/* line 294, master.scss */
-#sidebar div.sidebar-container .sidebar-options:checked ~ div.colour:nth-child(3) {
-  transform: translate(-43.14916px, 34.44151px);
-}
-/* line 294, master.scss */
-#sidebar div.sidebar-container .sidebar-options:checked ~ div.colour:nth-child(4) {
-  transform: translate(-49.23004px, 11.74736px);
-}
-/* line 294, master.scss */
-#sidebar div.sidebar-container .sidebar-options:checked ~ div.colour:nth-child(5) {
-  transform: translate(-49.23004px, -11.74736px);
-}
-/* line 294, master.scss */
-#sidebar div.sidebar-container .sidebar-options:checked ~ div.colour:nth-child(6) {
-  transform: translate(-43.14916px, -34.44151px);
-}
-/* line 305, master.scss */
-#sidebar div.sidebar-container .sidebar-options:checked ~ div.colour:nth-child(7) {
-  transform: translate(-83.14916px, 34.44151px);
-}
-/* line 305, master.scss */
-#sidebar div.sidebar-container .sidebar-options:checked ~ div.colour:nth-child(8) {
-  transform: translate(-89.23004px, 11.74736px);
-}
-/* line 305, master.scss */
-#sidebar div.sidebar-container .sidebar-options:checked ~ div.colour:nth-child(9) {
-  transform: translate(-89.23004px, -11.74736px);
-}
-/* line 305, master.scss */
-#sidebar div.sidebar-container .sidebar-options:checked ~ div.colour:nth-child(10) {
-  transform: translate(-83.14916px, -34.44151px);
 }
 /* line 312, master.scss */
-#sidebar div.sidebar-container .colour-input:checked ~ .colour-unselected {
-  display: none;
+div.sidebar-container .sidebar-options ~ .sidebar-item-button:nth-child(4) {
+  transition-duration: 100ms;
 }
-
-/* get responsive */
+/* line 316, master.scss */
+div.sidebar-container .sidebar-options ~ .sidebar-item-button:nth-child(6) {
+  transition-duration: 200ms;
+}
+/* line 320, master.scss */
+div.sidebar-container .sidebar-options ~ .sidebar-item-button:nth-child(8) {
+  transition-duration: 300ms;
+}
+/* line 326, master.scss */
+div.sidebar-container .sidebar-item:checked + label i {
+  color: #333333;
+}

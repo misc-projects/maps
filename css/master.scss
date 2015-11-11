@@ -76,7 +76,42 @@ body {
 	}
 }
 
-#sidebar {
+input {
+	display: none;
+}
+
+#sidebar-left {
+	position: fixed;
+	left: 20px;
+	z-index: 1;
+	height: 100%;
+
+	.sidebar-options:checked~label {
+		opacity: 1;
+		background-color: $blue3;
+		color: $white;
+
+		&.sidebar-item-button {
+
+			&:nth-child(4) {
+				opacity: 0.8;
+     				transform: scale(0.8) translate(30px * 2, 0);
+     			}
+     			&:nth-child(6) {
+     				opacity: 0.6;
+     				transform: scale(0.8) translate(30px * 4, 0);
+     			}	
+			&:nth-child(8) {
+				opacity: 0.4;
+     				transform: scale(0.8) translate(30px * 6, 0);
+     			}
+     	}
+     		
+	}
+
+}
+
+#sidebar-right {
 
 	@media screen and (min-width: 768px) {
 		height: 100%;
@@ -96,225 +131,202 @@ body {
 		display: none;
 	}
 
-	input[type=radio] {
-		display: none;
+	.sidebar-options:checked~label {
+		opacity: 1;
+		background-color: $blue3;
+		color: $white;
+		
+		&.sidebar-item-button {
+
+			&:nth-child(4) {
+				opacity: 0.8;
+     				transform: scale(0.8) translate(-30px * 2, 0);
+     			}
+     		&:nth-child(6) {
+     				opacity: 0.6;
+     				transform: scale(0.8) translate(-30px * 4, 0);
+     			}	
+			&:nth-child(8) {
+				opacity: 0.4;
+     				transform: scale(0.8) translate(-30px * 6, 0);
+     			}
+     		}
+     		
 	}
 
-	input[type=checkbox] {
-		display: none;
-	}
-
-	input[type=button] {
-		display: none;
-	}
-
-
-	div.sidebar-container {
-		border-radius: 50%;
-		width: 40px;
-		height: 40px;
-		z-index: 2;
-		margin-top: 20px;
-		color: grey;
-
-		&:first-child {
-			margin-top: 20px;
-		}
-
-
-
-		.sidebar-banner: {
-			position: relative;
-			color: grey;
-		}
-
-		label {
-			z-index: 3;
-			transition: background-color 0.50s;
-			display: block;
-			border-radius: 50%;
-			position: absolute;
-			width: 40px;
-			height: 40px;
-			cursor: pointer;
-
-
-			&.sidebar-options {
-				z-index: 5;
-			}
-
-			&:hover {
-				background-color: $blue3;
-				color: $white;
-			}
-
-		}
-
-		.sidebar-icon {
-			z-index: 4;
-			position: absolute;
-			width: 40px;
-			height: 40px;
-			padding: 0px 0 0 0px ;
-			top: 5px;
-			left: 8px;
-			font-size: 30px;
-			text-align: middle;
-		}
-
-		.sidebar-item-button {
-	
-			position: absolute;
-
-			i {
-				position: absolute;
-				top: 9px;
-				left: 8px;
-				color: $white;
-			}
-		}
-
-		.sidebar-options~.sidebar-item-button {
-			opacity: 0;
-			transition: all ease;
-
-				&:nth-child(4) {
-					transition-duration: 100ms * 1;
-      			}
-
-      			&:nth-child(6) {
-      				transition-duration: 100ms * 2;
-      			}	
-
-				&:nth-child(8) {
-					transition-duration: 100ms * 3;
-      			}
-		}
-
-
-		.sidebar-options:checked~label {
-			opacity: 1;
-			background-color: $blue3;
-			color: $white;
-
-			&.sidebar-item-button {
-
-
-				&:nth-child(4) {
-					opacity: 0.8;
-      				transform: scale(0.8) translate(-30px * 2, 0);
-      			}
-
-      			&:nth-child(6) {
-      				opacity: 0.6;
-      				transform: scale(0.8) translate(-30px * 4, 0);
-      			}	
-
-				&:nth-child(8) {
-					opacity: 0.4;
-      				transform: scale(0.8) translate(-30px * 6, 0);
-      			}
-      		}
-      		
-		}
-
-		.sidebar-item:checked+label {
-			i {
-				color: $grey4;
-			}
-		}
-
-		$colourSelection: #EF9EA3, #C795BF, #92B0DB, #88EEFA, 
+	$colourSelection: #EF9EA3, #C795BF, #92B0DB, #88EEFA, 
 						#A1E09A, #FEF59D, #F9CB8D, #F19D7F;
 
-		div.colour {
-			position: relative;
-		}
-
-		label.colour {
-			z-index: 6;
-			transition: background-color 0.50s;
-			display: block;
-			border-radius: 50%;
-			position: absolute;
-			width: 20px;
-			height: 20px;
-		}
-
-		.colour-selected {
-			position: absolute;
-			width: 10px;
-			height: 10px;
-			border-radius: 50%;
-			top: 5px;
-			left: 5px;
-		}
-
-		.colour-unselected {
-			position: absolute;
-			width: 10px;
-			height: 10px;
-			border-radius: 50%;
-			background: $white;
-			top: 5px;
-			left: 5px;
-		}
-
-		@for $i from 1 through length($colourSelection) {
-    		#colour#{$i} {
-    			top: 10px;
-    			left: 10px;
-        		background-color: nth($colourSelection, $i);
-    		}
-		}
-
-		@for $i from 1 through length($colourSelection) {
-    		#colour#{$i} .colour-selected {
-        		background-color: nth($colourSelection, $i);
-    		}
-		}
-
-		.sidebar-options~div.colour {
-			opacity: 0;
-			transition: all ease;
-			transition-duration: 250ms;
-		}
-
-		/* Setting up circular open animation($pi / 6) * ($i) */
-		
-		$pi: 3.14;
-
-		.sidebar-options:checked~div.colour {
-			opacity: 1;
-			@for $i from 1 through 4 {
-
-				$angle: 15deg * ($i - 2.5);
-				$distance: -90px;
-
-    			&:nth-child(#{$i + 2}) {
-        			transform: translate(cos($angle) * $distance + 40px, 
-        								sin($angle) * $distance);
-        		}
-			}
-
-			@for $i from 5 through 8 {
-
-				$angle: 15deg * ($i - 6.5);
-				$distance: -90px;
-
-    			&:nth-child(#{$i + 2}) {
-        			transform: translate(cos($angle) * $distance, 
-        								sin($angle) * $distance);
-        		}
-			}
-		}
-
-		.colour-input:checked~.colour-unselected {
-				display: none;
-			}
+	div.colour {
+		position: relative;
 	}
 
+	label.colour {
+		z-index: 6;
+		transition: background-color 0.50s;
+		display: block;
+		border-radius: 50%;
+		position: absolute;
+		width: 20px;
+		height: 20px;
+	}
+
+	.colour-selected {
+		position: absolute;
+		width: 10px;
+		height: 10px;
+		border-radius: 50%;
+		top: 5px;
+		left: 5px;
+	}
+
+	.colour-unselected {
+		position: absolute;
+		width: 10px;
+		height: 10px;
+		border-radius: 50%;
+		background: $white;
+		top: 5px;
+		left: 5px;
+	}
+
+	@for $i from 1 through length($colourSelection) {
+   		#colour#{$i} {
+   			top: 10px;
+   			left: 10px;
+       		background-color: nth($colourSelection, $i);
+   		}
+	}
+
+	@for $i from 1 through length($colourSelection) {
+   		#colour#{$i} .colour-selected {
+       		background-color: nth($colourSelection, $i);
+   		}
+	}
+
+	.sidebar-options~div.colour {
+		opacity: 0;
+		transition: all ease;
+		transition-duration: 250ms;
+	}
+
+	/* Setting up circular open animation($pi / 6) * ($i) */
+	$pi: 3.14;
+
+	.sidebar-options:checked~div.colour {
+		opacity: 1;
+
+		@for $i from 1 through 4 {
+			$angle: 15deg * ($i - 2.5);
+			$distance: -90px;
+   			&:nth-child(#{$i + 2}) {
+       			transform: translate(cos($angle) * $distance + 40px, 
+       								sin($angle) * $distance);
+       		}
+		}
+
+		@for $i from 5 through 8 {
+			$angle: 15deg * ($i - 6.5);
+			$distance: -90px;
+
+   			&:nth-child(#{$i + 2}) {
+       			transform: translate(cos($angle) * $distance, 
+       								sin($angle) * $distance);
+       		}
+		}
+	}
+
+	.colour-input:checked~.colour-unselected {
+			display: none;
+		}
 }
 
 
 /* get responsive */
+div.sidebar-container {
+	border-radius: 50%;
+	width: 40px;
+	height: 40px;
+	z-index: 2;
+	margin-top: 20px;
+	color: grey;
+
+	&:first-child {
+		margin-top: 20px;
+	}
+
+	.sidebar-banner: {
+		position: relative;
+		color: grey;
+	}
+
+	label {
+		z-index: 3;
+		transition: background-color 0.50s;
+		display: block;
+		border-radius: 50%;
+		position: absolute;
+		width: 40px;
+		height: 40px;
+		cursor: pointer;
+
+		&.sidebar-options {
+			z-index: 5;
+		}
+
+		&:hover {
+			background-color: $blue3;
+			color: $white;
+		}
+
+	}
+
+	.sidebar-icon {
+		z-index: 4;
+		position: absolute;
+		width: 40px;
+		height: 40px;
+		padding: 0px 0 0 0px ;
+		top: 5px;
+		left: 8px;
+		font-size: 30px;
+		text-align: middle;
+	}
+
+	.sidebar-item-button {
+
+		position: absolute;
+
+		i {
+			position: absolute;
+			top: 9px;
+			left: 8px;
+			color: $white;
+		}
+	}
+
+	.sidebar-options~.sidebar-item-button {
+		opacity: 0;
+		transition: all ease;
+
+		&:nth-child(4) {
+			transition-duration: 100ms * 1;
+		}
+
+		&:nth-child(6) {
+			transition-duration: 100ms * 2;
+		}	
+
+		&:nth-child(8) {
+			transition-duration: 100ms * 3;
+		}
+	}
+
+	.sidebar-item:checked+label {
+		i {
+			color: $grey4;
+		}
+	}
+
+}
+	

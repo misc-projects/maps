@@ -11,19 +11,7 @@
 
     <div id="map"></div>
 
-    <div id="sidebar">
-
-        <div id="reset-bar" class="sidebar-container">
-            <div class="sidebar-banner">
-                <input type="button" name="reset" value="reset">
-                <label id="reset-zoom" for="reset" title="Reset zoom">
-                    <h1 class="sidebar-icon">
-                    <i class="material-icons">zoom_out</i>
-                </h1>
-            </label>
-             </div>
-        </div>
-
+    <div id="sidebar-left">
         <div id="detail-bar" class="sidebar-container">
             <div class="sidebar-banner">
                 <input id="checkbox-detail" type="checkbox" name="map-detail" class="sidebar-options" value="detail">
@@ -37,25 +25,6 @@
 
                 <input id="city-name" class="sidebar-item" type="checkbox" name="detail-selection" value="country">
                 <label for="city-name" class="sidebar-item-button"><i class="material-icons">location_city</i></label>
-            </div>
-        </div>
-
-        <div id="pin-bar" class="sidebar-container">
-            <div class="sidebar-banner">
-                <input id="radio-pin" type="radio" name="sidebar-options" class="sidebar-options" value="pin" title="Add/remove markers">
-                <label class="sidebar-options" for="radio-pin">
-                    <div class="sidebar-icon expandable-button">
-                        <i class="material-icons">pin_drop</i>
-                    </div>
-                </label>
-
-                
-                <input id="pin-on"type="radio" class="sidebar-item" name="pin-toggle" value="pin-on" checked>
-                <label for="pin-on" class="sidebar-item-button" title="Place marker"><i class="material-icons">location_on</i></label>
-
-                <input id="pin-off" class="sidebar-item" type="radio" name="pin-toggle" value="pin-off">
-                <label for="pin-off" class="sidebar-item-button" title="Remove marker"><i class="material-icons">location_off</i></label>
-
             </div>
         </div>
 
@@ -77,6 +46,39 @@
 
                 <input id="never-visited" class="sidebar-item" type="radio" name="travel-status" value="never-visited">
                 <label id="never-visited-button" for="never-visited" class="sidebar-item-button" title="Never visited"><i class="material-icons">check_box_outline_blank</i></label>
+            </div>
+        </div>
+    </div>
+
+    <div id="sidebar-right">
+
+        <div id="reset-bar" class="sidebar-container">
+            <div class="sidebar-banner">
+                <input type="button" name="reset" value="reset">
+                <label id="reset-zoom" for="reset" title="Reset zoom">
+                    <h1 class="sidebar-icon">
+                    <i class="material-icons">zoom_out</i>
+                </h1>
+            </label>
+             </div>
+        </div>
+
+        <div id="pin-bar" class="sidebar-container">
+            <div class="sidebar-banner">
+                <input id="radio-pin" type="radio" name="sidebar-options" class="sidebar-options" value="pin" title="Add/remove markers">
+                <label class="sidebar-options" for="radio-pin">
+                    <div class="sidebar-icon expandable-button">
+                        <i class="material-icons">pin_drop</i>
+                    </div>
+                </label>
+
+                
+                <input id="pin-on"type="radio" class="sidebar-item" name="pin-toggle" value="pin-on" checked>
+                <label for="pin-on" class="sidebar-item-button" title="Place marker"><i class="material-icons">location_on</i></label>
+
+                <input id="pin-off" class="sidebar-item" type="radio" name="pin-toggle" value="pin-off">
+                <label for="pin-off" class="sidebar-item-button" title="Remove marker"><i class="material-icons">location_off</i></label>
+
             </div>
         </div>
 
