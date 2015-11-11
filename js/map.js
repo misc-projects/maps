@@ -300,6 +300,10 @@ d3.json("raw_shp/world.json", function(error, world) {
         };    
     };
 
+    var visitStatus = { "never-visited" : [],
+                        "will-visit" : [],
+                        "visited" : [] };
+
     // Changes the class for a polygon based on visit status
     function visitSelect() {
         var visitSelection = d3.select('input[name="travel-status"]:checked').node().value,
@@ -321,34 +325,69 @@ d3.json("raw_shp/world.json", function(error, world) {
 
         
         // Update visit lists ** consider refactoring
-        var visitStatus = { "never-visited" : [],
-                            "will-visit" : [],
-                            "visited" : [] };
+        function updateList() {
 
-        if (!selection.classed(visitSelection)) {
-            addToList(countryName, classIndex);
-            removeFromList(countryName, (classIndex + 1) % 3);
-            removeFromList(countryName, (classIndex + 2) % 3);
-        } else {
-            removeFromList(countryName, classIndex);
-        }
-        
-        selection.classed(visitSelection, !selection.classed(visitSelection));
+            if (!selection.classed(visitSelection)) {
+                addToList(countryName, classIndex);
+                removeFromList(countryName, (classIndex + 1) % 3);
+                removeFromList(countryName, (classIndex + 2) % 3);
+            } else {
+                removeFromList(countryName, classIndex);
+           }
+            
+            selection.classed(visitSelection, !selection.classed(visitSelection));
 
-        function addToList(countryName, classIndex) {
-            visitStatus[classOptions[classIndex]].push(countryName);
-        }
+            function addToList(countryName, classIndex) {
+                visitStatus[classOptions[classIndex]].push(countryName);
+                updateBoard(classOptions[classIndex], countryName);
+            }
 
-        function removeFromList(countryName, classIndex) {
-            var i = visitStatus[classOptions[classIndex]].indexOf(countryName);
-            if (i !== -1) {
-                visitStatus[classOptions[classIndex]].splice(i, 1)
+            function removeFromList(countryName, classIndex) {
+                var i = visitStatus[classOptions[classIndex]].indexOf(countryName);
+                if (i !== -1) {
+                    visitStatus[classOptions[classIndex]].splice(i, 1)
+                };
+                updateBoard(classOptions[classIndex], countryName);
+            }
+
+            function updateBoard(visitClass, clickCountryName) {
+                d3.select("#" + visitClass + "-board")
+                    .select("p")
+                    .html(function() {
+                        var countryArr = visitStatus[visitClass].sort()
+                        var display = ""
+                        for (var i = 0; i < countryArr.length; i++) {
+
+                            console.log(countryArr[i] + " " + clickCountryName)
+                            if (countryArr[i] == clickCountryName) {
+                                display = display + "<span class='new-entry'>"
+                                        + countryArr[i] + "</span> <br />"
+                            } else {
+                                display = display + countryArr[i] + "<br />"
+                            }
+                        };
+                        
+                        return display;
+                    })
+                    .select(".new-entry")
+                        .style("opacity", 0)
+                    
+                d3.select("#" + visitClass + "-board")
+                    .select(".new-entry")
+                        .transition()
+                        .duration(350)
+                        .style("opacity", 1);
+
             };
-        }
-    
-        // Display boards
         
+        }
+
+        updateList();
+
+
     };
+
+    // Display boards
 
 
     // Create new SVG group for pins
