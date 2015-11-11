@@ -350,6 +350,7 @@ d3.json("raw_shp/world.json", function(error, world) {
                 updateBoard(classOptions[classIndex], countryName);
             }
 
+            // Display boards
             function updateBoard(visitClass, clickCountryName) {
                 d3.select("#" + visitClass + "-board")
                     .select("p")
@@ -387,7 +388,7 @@ d3.json("raw_shp/world.json", function(error, world) {
 
     };
 
-    // Display boards
+
 
 
     // Create new SVG group for pins

@@ -319,7 +319,7 @@ h2 {
   display: none;
 }
 
-/* get responsive */
+/* MAKE RESPONSIVE */
 /* line 269, master.scss */
 div.sidebar-container {
   border-radius: 50%;
@@ -406,17 +406,27 @@ div.sidebar-container .sidebar-item:checked + label i {
   top: 130px;
   height: auto;
   min-height: 50px;
+  max-height: 300px;
+  overflow-y: scroll;
   width: 110px;
-  background-color: rgba(137, 187, 254, 0.3);
   padding: 10px 10px;
   text-align: left;
   border-radius: 5px;
   opacity: 0;
   transition: opacity 0.5s linear;
+  box-shadow: 2px 7px 8px -8px rgba(0, 0, 0, 0.75), inset -1px -1px 9px -3px #e9f5f0;
+  background: rgba(137, 187, 254, 0.3);
+  background: linear-gradient(45deg, rgba(137, 187, 254, 0.7) 0%, rgba(82, 153, 235, 0.15) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#84bcf1', endColorstr='#5299eb', GradientType=1 );
 }
 
-/* line 371, master.scss */
+/* line 378, master.scss */
 .visit-board-list {
   font-size: 10px;
   color: #131313;
+}
+
+/* line 383, master.scss */
+::-webkit-scrollbar {
+  display: none;
 }
